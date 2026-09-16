@@ -1,0 +1,1 @@
+ENVIRONMENT_NAMES: list[str] = ["dev", "test", "stage", "prod"]

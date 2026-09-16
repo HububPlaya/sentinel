@@ -20,6 +20,7 @@ class InfraStack(Stack):
 
         self.instance_role = WebAppInstanceRole(
             self, "WebAppInstanceRole",
+            app_name=app_name,
             env_name=env_config.env_name,
             iam_config=env_config.iam,
         )
@@ -34,13 +35,10 @@ class InfraStack(Stack):
             self, "WebAppHosting",
             app_name=app_name,
             env_config=env_config,
-            instance_profile_name=self.instance_role.instance_profile.instance_profile_name,
+            instance_profile_name=self.instance_role.instance_profile.ref,
             version_label=self.app_bundle.application_version.ref,
         )
 
-        # Explicit dependency: application_name matching by string doesn't tell CloudFormation
-        # these are related — without this, CFN can create both in parallel and fail, since
-        # the ApplicationVersion needs the Application to exist first.
         self.app_bundle.application_version.add_resource_dependency(
             self.web_app_hosting.application
         )

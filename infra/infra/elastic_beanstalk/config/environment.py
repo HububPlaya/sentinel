@@ -1,5 +1,7 @@
 from dataclasses import dataclass, field
 
+from infra.config import ENVIRONMENT_NAMES
+
 from .scaling import AutoScalingConfig
 from .instance import InstanceConfig
 from .iam import IamConfig
@@ -33,3 +35,10 @@ ENVIRONMENTS: dict[str, EnvConfig] = {
         instance=InstanceConfig(instance_type="t3.small"),
     ),
 }
+
+# Guards against elastic_beanstalk silently drifting from the shared environment list —
+# e.g. someone adds "canary" here without updating infra/infra/config/environments.py.
+assert set(ENVIRONMENTS.keys()) == set(ENVIRONMENT_NAMES), (
+    f"elastic_beanstalk ENVIRONMENTS keys {set(ENVIRONMENTS.keys())} don't match "
+    f"the shared ENVIRONMENT_NAMES {set(ENVIRONMENT_NAMES)}"
+)

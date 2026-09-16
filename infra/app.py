@@ -18,8 +18,8 @@ env_config = ENVIRONMENTS[target_env]
 APP_SOURCE_PATH = os.path.join(os.path.dirname(__file__), "..", "test-apps", "snack-recommender")
 
 InfraStack(
-    app, f"WebappInfra-{target_env}",
-    app_name="webapp",
+    app, f"SnackRecommenderInfra-{target_env}",
+    app_name="snack-recommender",
     env_config=env_config,
     app_source_path=APP_SOURCE_PATH,
     env=cdk.Environment(
