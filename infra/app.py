@@ -15,10 +15,13 @@ if target_env not in ENVIRONMENTS:
 
 env_config = ENVIRONMENTS[target_env]
 
+APP_SOURCE_PATH = os.path.join(os.path.dirname(__file__), "..", "test-apps", "snack-recommender")
+
 InfraStack(
     app, f"WebappInfra-{target_env}",
     app_name="webapp",
     env_config=env_config,
+    app_source_path=APP_SOURCE_PATH,
     env=cdk.Environment(
         account=os.getenv("CDK_DEFAULT_ACCOUNT"),
         region=os.getenv("CDK_DEFAULT_REGION"),
