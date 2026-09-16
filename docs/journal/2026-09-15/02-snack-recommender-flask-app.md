@@ -1,7 +1,7 @@
 ---
 date: 2026-09-15
 sequence: 02
-commit: <fill in after committing>
+commit: bcf1569
 ---
 
 # Built the snack-recommender Flask app (test-apps/)
@@ -26,12 +26,18 @@ commit: <fill in after committing>
   from source and failed with `pg_config executable not found`. Root cause: that pinned version
   doesn't ship a prebuilt wheel for Python 3.13 — Python 3.13 wheel support was only added in
   `psycopg2-binary` 2.9.10. Fixed by bumping the pinned version in `requirements.txt`.
+- Confirmed the full local loop works: `flask init-db` created tables, `flask seed-db` loaded
+  the 15 starter snacks, `flask run` served the app, and `GET /snacks` returned the seeded data
+  in the browser at `127.0.0.1:5000/snacks`.
+- VS Code showed a notice that `.env` values weren't being injected into the integrated
+  terminal (a VS Code setting, `python.terminal.useEnvFile`, not an app bug). Didn't matter yet
+  since SQLite fallback defaults covered it, but fixed properly for when `DATABASE_URL` needs
+  to point at real Postgres later — added `load_dotenv()` to `wsgi.py` so the app loads `.env`
+  itself, independent of any terminal/editor setting.
 
 ## Next up (not yet started)
 
-- Get the app running locally end to end (`init-db`, `seed-db`, `flask run`) and confirm the
-  endpoints work as expected.
-- Wire up the actual bundle-deploy mechanism onto Elastic Beanstalk: S3 bucket,
+- Wire up the actual bundle-deploy mechanism onto Elastic Beanstalk: S3 asset,
   `CfnApplicationVersion`, and setting `version_label` on the environment — this is what
   replaces EB's default sample app with this real one.
 - RDS/Postgres, so `DATABASE_URL` points at something real instead of SQLite once deployed.

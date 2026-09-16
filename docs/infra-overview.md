@@ -28,12 +28,31 @@ sentinel/                              # repo root
     cdk.json
     requirements.txt
     requirements-dev.txt
+  test-apps/                          # real apps used to exercise the deploy pipeline
+    snack-recommender/
+      app/
+        __init__.py
+        config.py
+        extensions.py
+        models.py
+        seed.py
+        routes/
+          snacks.py
+          users.py
+          recommendations.py
+      wsgi.py
+      Procfile
+      requirements.txt
+      requirements-dev.txt
+      README.md
   pipeline/                            # CI/CD code — sibling to infra/, not nested inside it
   docs/                                # this folder
     infra-overview.md
     elastic-beanstalk/                 # docs stay scoped by component, even though the code doesn't
       deploy-flow.md
       flow-diagram.svg
+    snack-recommender/
+      overview.md                      # data model + API reference (README covers setup instead)
     journal/                           # chronological, cross-cutting — not split by component
       README.md
       2026-09-14/
@@ -41,6 +60,8 @@ sentinel/                              # repo root
         02-cdk-base-template-first-deploy.md
       2026-09-15/
         01-multi-stack-elastic-beanstalk-submodules.md
+        02-snack-recommender-flask-app.md
+        03-app-bundle-deploy.md
 ```
 
 The CDK project itself is not named after Elastic Beanstalk — it's the general
