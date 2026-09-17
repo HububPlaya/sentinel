@@ -5,22 +5,39 @@ import aws_cdk as cdk
 
 from pipeline.config import TARGETS
 from pipeline.pipeline_stack import PipelineStack
+from pipeline.resource_pipeline_stack import ResourcePipelineStack
 
 app = cdk.App()
 
-# TODO: replace with your actual GitHub username/org and repo name
 GITHUB_OWNER = "HububPlaya"
 GITHUB_REPO = "sentinel"
-GITHUB_BRANCH = "feature/cf-template-elastic-beanstalk"
+GITHUB_BRANCH = "main"
+EXISTING_CONNECTION_ARN = "arn:aws:codestar-connections:us-east-1:976193251729:connection/9ee748a7-26a4-4849-aa0c-5a89e9cda8af"
 
-target = TARGETS[("snack-recommender", "dev")]
+targets_by_env = {
+    env: TARGETS[("snack-recommender", env)]
+    for env in ("dev", "test", "stage", "prod")
+}
 
 PipelineStack(
-    app, f"PipelineStack-{target.application_name}-{target.environment_name}",
+    app, "PipelineStack-snack-recommender",
     github_owner=GITHUB_OWNER,
     github_repo=GITHUB_REPO,
     github_branch=GITHUB_BRANCH,
-    target=target,
+    connection_arn=EXISTING_CONNECTION_ARN,
+    targets_by_env=targets_by_env,
+    env=cdk.Environment(
+        account=os.getenv("CDK_DEFAULT_ACCOUNT"),
+        region=os.getenv("CDK_DEFAULT_REGION"),
+    ),
+)
+
+ResourcePipelineStack(
+    app, "ResourcePipelineStack",
+    github_owner=GITHUB_OWNER,
+    github_repo=GITHUB_REPO,
+    github_branch=GITHUB_BRANCH,
+    connection_arn=EXISTING_CONNECTION_ARN,
     env=cdk.Environment(
         account=os.getenv("CDK_DEFAULT_ACCOUNT"),
         region=os.getenv("CDK_DEFAULT_REGION"),
