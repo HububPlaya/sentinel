@@ -3,7 +3,7 @@ from constructs import Construct
 from infra.elastic_beanstalk.config import IamConfig
 
 
-class WebAppInstanceRole(Construct):
+class ElasticBeanstalkInstanceRole(Construct):
     def __init__(
         self, scope: Construct, construct_id: str, *, app_name: str, env_name: str, iam_config: IamConfig
     ) -> None:
