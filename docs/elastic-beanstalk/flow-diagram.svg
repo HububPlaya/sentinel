@@ -1,106 +1,120 @@
-<svg width="680" height="680" viewBox="0 0 680 680" xmlns="http://www.w3.org/2000/svg" role="img" xmlns:c2pa="http://c2pa.org/manifest"><metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTo3ODgxOTRlNS1hMmZlLTRiYjItOTcyOC1kMDFkYjRhNWQ4OGQAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaINYk8iEZKgHKM9UKPHclxEAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDpkZWViN2UyYi1kY2JiLTQyNDQtYThiNy1jNTE1YWNkNzY4YWVscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNoaupqx06dzMqgMVziRPCBBwAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFgg+/GptvzCmbjXljKGbqYzXb0z5l2llbk5WsMPJ7XG1xGkZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaNnAf8ndDlSFRO4tdASedvUAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRNAAAAAAAAAAAAAAAAAGRoYXNoWCDYmfRid/TFTOZgovotn+STsbTcs41bMSrV80Osk1mrQmRuYW1lbmp1bWJmIG1hbmlmZXN0amV4Y2x1c2lvbnOBomVzdGFydBihZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOjc4ODE5NGU1LWEyZmUtNGJiMi05NzI4LWQwMWRiNGE1ZDg4ZC9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOjYwZjI0ZWMzLTljZTgtNDFjNy04MWZjLTJmZjg2MzAwNmViNXJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCD78am2/MKZuNeWMoZupjNdvTPmXaWVuTlaww8ntcbXEaJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggtSC/xwd/i8/7r3ZM6zAaAOfIW/uFLHbAIkxkbd/Hz+miY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggQ2e0qCdZlw0ZK41H6tSOnfJ7OtWFw06FcpTWwIIYbod0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQKttPV6vIo1Y5gzmDtPy32uW0WYTeD260pm6UTQqBN+7yuPjAnq4JRAudtFHrBwRIMaAUIrN+stirwU6RHzxbu0=</c2pa:manifest></metadata>
-  <title>How the Application/Environment split deploys to Elastic Beanstalk</title>
-  <desc>Config feeds app.py, which always instantiates two stacks: ApplicationStack, deployed once ever, creating the shared EB Application; and EnvironmentStack, deployed once per environment, creating an IAM role and an EB Environment that references the Application by name rather than creating it. A separate app pipeline, external to these stacks, updates the running code directly via the EB API rather than through cdk deploy.</desc>
+<svg width="900" height="640" viewBox="0 0 900 640" xmlns="http://www.w3.org/2000/svg" role="img" xmlns:c2pa="http://c2pa.org/manifest"><metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTo0ZjhkZmZlZi1hNWMwLTRjYWUtOTU3NC1mZWNlMzU5OTc0NjgAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaL99mCFn9GPh3pSxAbHob3kAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDpjOWY2ODNmZS1mOGMzLTRkMjAtOTc4YS1jNGMzOTlkZDk0NzBscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNoS+rBcqw28S1SJ+zPndHQpwAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFgg6jwn1Ft6iNFbxuTB17hW2CurZZKyBpV9c7uJrHdmRSakZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaBQdyh1JkhMGqUGRrtV+T88AAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRNAAAAAAAAAAAAAAAAAGRoYXNoWCAvEFEFut3CfHkk/qv1V1WbFr21M5QiPcqU9HXGnAPwkGRuYW1lbmp1bWJmIG1hbmlmZXN0amV4Y2x1c2lvbnOBomVzdGFydBihZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOjRmOGRmZmVmLWE1YzAtNGNhZS05NTc0LWZlY2UzNTk5NzQ2OC9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOjg0OGFhODUwLWU4ZDctNGVlNi04OWQ3LTE2ZjliY2ZmMzE1MXJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCDqPCfUW3qI0VvG5MHXuFbYK6tlkrIGlX1zu4msd2ZFJqJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggx/vMNSq45h9fS38GC8B8xZeao9fLW+i8ufsIsnsbMu6iY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFgg7hB4JcGRHhUKwIUP0xaonp3iODNB3xfxyhOjnbnK92t0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQOMk4xqCedP33OrgcEoh86O9HfQ0LbkUyhuWYqmX8Y4RCBqlBOATUm/NVrsP3ecFgQv0/W9QxV+bgtim8QxGkTU=</c2pa:manifest></metadata>
+  <title>Four-stack Elastic Beanstalk + RDS architecture, current state</title>
+  <desc>Config feeds app.py, the composition root, which creates four stacks with different
+  lifecycles: ApplicationStack (the EB Application, deployed once ever), NetworkStack (the EB
+  security group, deployed once per environment and rarely touched again), DatabaseStack (the
+  RDS instance, fully independent of EB), and EnvironmentStack (the EB Environment itself,
+  which changes most often and references the other three's outputs). EnvironmentStack's EB
+  environment now sets explicit VPC configuration -- VPCId, Subnets, ELBSubnets -- which was
+  the actual root cause of a real, reproduced deploy failure; a security-group propagation-lag
+  theory initially looked plausible but was disproven by direct testing. An external app
+  pipeline updates the running code via the EB API directly, not through CloudFormation.</desc>
 
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M1 1L8 5L1 9" fill="none" stroke="#5f5e5a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </marker>
-    <marker id="arrow-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M1 1L8 5L1 9" fill="none" stroke="#854f0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     </marker>
     <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M1 1L8 5L1 9" fill="none" stroke="#185fa5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     </marker>
   </defs>
 
-  <text x="340" y="28" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="600" fill="#2c2c2a">Application/Environment split — current state</text>
-  <text x="340" y="46" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#5f5e5a">One Application, shared; one Environment stack per deploy target</text>
+  <text x="450" y="26" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="600" fill="#2c2c2a">Elastic Beanstalk + RDS — four-stack architecture</text>
+  <text x="450" y="44" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#5f5e5a">Simplified view — see docs/elastic-beanstalk/deploy-flow.md for per-construct detail</text>
 
   <!-- config/ -->
-  <rect x="185" y="60" width="300" height="50" rx="10" fill="#F1EFE8" stroke="#888780" stroke-width="1"/>
-  <text x="335" y="80" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="600" fill="#2c2c2a">config/</text>
-  <text x="335" y="98" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#5f5e5a">Instance count + size per environment</text>
+  <rect x="300" y="58" width="300" height="48" rx="10" fill="#F1EFE8" stroke="#888780" stroke-width="1"/>
+  <text x="450" y="78" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="600" fill="#2c2c2a">config/</text>
+  <text x="450" y="96" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#5f5e5a">Per-environment sizing, AZs, DB settings</text>
 
-  <line x1="335" y1="110" x2="335" y2="130" stroke="#5f5e5a" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="450" y1="106" x2="450" y2="122" stroke="#5f5e5a" stroke-width="1.5" marker-end="url(#arrow)"/>
 
   <!-- app.py -->
-  <rect x="185" y="130" width="300" height="55" rx="10" fill="#F1EFE8" stroke="#888780" stroke-width="1"/>
-  <text x="335" y="150" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="600" fill="#2c2c2a">app.py</text>
-  <text x="335" y="168" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#5f5e5a">Always: ApplicationStack once + one</text>
-  <text x="335" y="182" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#5f5e5a">EnvironmentStack per -c env=</text>
+  <rect x="300" y="122" width="300" height="48" rx="10" fill="#F1EFE8" stroke="#888780" stroke-width="1"/>
+  <text x="450" y="142" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="600" fill="#2c2c2a">app.py</text>
+  <text x="450" y="160" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#5f5e5a">Composes all four stacks; grants access</text>
 
-  <!-- branch arrows -->
-  <line x1="300" y1="185" x2="182" y2="215" stroke="#5f5e5a" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="370" y1="185" x2="488" y2="215" stroke="#5f5e5a" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- fan-out arrows to each stack -->
+  <line x1="420" y1="170" x2="120" y2="195" stroke="#5f5e5a" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="440" y1="170" x2="340" y2="195" stroke="#5f5e5a" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="460" y1="170" x2="560" y2="195" stroke="#5f5e5a" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="480" y1="170" x2="780" y2="195" stroke="#5f5e5a" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-  <!-- ApplicationStack container -->
-  <rect x="40" y="215" width="285" height="150" rx="14" fill="#EEEDFE" stroke="#7f77dd" stroke-width="1" stroke-dasharray="4 4"/>
-  <text x="58" y="238" font-family="sans-serif" font-size="14" font-weight="600" fill="#26215c">ApplicationStack</text>
-  <text x="58" y="254" font-family="sans-serif" font-size="12" fill="#3c3489">deployed once, ever</text>
+  <!-- Stack row -->
+  <rect x="20" y="195" width="200" height="65" rx="12" fill="#EEEDFE" stroke="#7f77dd" stroke-width="1" stroke-dasharray="4 4"/>
+  <text x="120" y="220" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="600" fill="#26215c">ApplicationStack</text>
+  <text x="120" y="238" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#3c3489">deployed once, ever</text>
 
-  <rect x="60" y="275" width="245" height="70" rx="10" fill="#E1F5EE" stroke="#1d9e75" stroke-width="1"/>
-  <text x="182" y="298" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="600" fill="#04342c">ElasticBeanstalkApplication</text>
-  <text x="182" y="316" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#0f6e56">Creates the EB Application</text>
-  <text x="182" y="332" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#0f6e56">(one per account)</text>
+  <rect x="240" y="195" width="200" height="65" rx="12" fill="#EEEDFE" stroke="#7f77dd" stroke-width="1" stroke-dasharray="4 4"/>
+  <text x="340" y="220" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="600" fill="#26215c">NetworkStack</text>
+  <text x="340" y="238" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#3c3489">rarely recreated</text>
 
-  <!-- EnvironmentStack container -->
-  <rect x="345" y="215" width="285" height="150" rx="14" fill="#EEEDFE" stroke="#7f77dd" stroke-width="1" stroke-dasharray="4 4"/>
-  <text x="363" y="238" font-family="sans-serif" font-size="14" font-weight="600" fill="#26215c">EnvironmentStack</text>
-  <text x="363" y="254" font-family="sans-serif" font-size="12" fill="#3c3489">one per environment</text>
+  <rect x="460" y="195" width="200" height="65" rx="12" fill="#EEEDFE" stroke="#7f77dd" stroke-width="1" stroke-dasharray="4 4"/>
+  <text x="560" y="220" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="600" fill="#26215c">DatabaseStack</text>
+  <text x="560" y="238" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#3c3489">no dependency on EB</text>
 
-  <rect x="365" y="265" width="245" height="42" rx="10" fill="#E1F5EE" stroke="#1d9e75" stroke-width="1"/>
-  <text x="487" y="282" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="600" fill="#04342c">WebAppInstanceRole</text>
-  <text x="487" y="299" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#0f6e56">IAM role + instance profile</text>
-
-  <rect x="365" y="317" width="245" height="42" rx="10" fill="#E1F5EE" stroke="#1d9e75" stroke-width="1"/>
-  <text x="487" y="334" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="600" fill="#04342c">ElasticBeanstalkEnvironment</text>
-  <text x="487" y="351" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#0f6e56">creates the EB Environment</text>
+  <rect x="680" y="195" width="200" height="65" rx="12" fill="#EEEDFE" stroke="#7f77dd" stroke-width="1" stroke-dasharray="4 4"/>
+  <text x="780" y="220" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="600" fill="#26215c">EnvironmentStack</text>
+  <text x="780" y="238" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#3c3489">changes most often</text>
 
   <!-- arrows down to AWS resources -->
-  <line x1="182" y1="365" x2="182" y2="390" stroke="#5f5e5a" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="487" y1="365" x2="487" y2="390" stroke="#5f5e5a" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="120" y1="260" x2="120" y2="280" stroke="#5f5e5a" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="340" y1="260" x2="340" y2="280" stroke="#5f5e5a" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="560" y1="260" x2="560" y2="280" stroke="#5f5e5a" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="780" y1="260" x2="780" y2="280" stroke="#5f5e5a" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-  <text x="340" y="386" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="600" fill="#5f5e5a">— real AWS resources —</text>
+  <text x="450" y="278" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="600" fill="#5f5e5a">— real AWS resources —</text>
 
-  <!-- EB Application resource -->
-  <rect x="60" y="390" width="245" height="55" rx="10" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
-  <text x="182" y="411" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="600" fill="#4A1B0C">EB application</text>
-  <text x="182" y="429" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#993C1D">snack-recommender</text>
+  <!-- Application resource -->
+  <rect x="20" y="290" width="200" height="50" rx="10" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
+  <text x="120" y="311" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="600" fill="#4A1B0C">EB application</text>
+  <text x="120" y="329" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#993C1D">snack-recommender</text>
 
-  <!-- IAM resource -->
-  <rect x="365" y="390" width="245" height="45" rx="10" fill="#FAEEDA" stroke="#ba7517" stroke-width="1"/>
-  <text x="487" y="410" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="600" fill="#412402">IAM role &amp; profile</text>
-  <text x="487" y="427" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#854f0b">scoped per environment</text>
+  <!-- Network resource -->
+  <rect x="240" y="290" width="200" height="50" rx="10" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
+  <text x="340" y="311" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="600" fill="#4A1B0C">EB security group</text>
+  <text x="340" y="329" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#993C1D">per-environment</text>
 
-  <line x1="487" y1="435" x2="487" y2="455" stroke="#5f5e5a" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Database resource -->
+  <rect x="460" y="290" width="200" height="65" rx="10" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
+  <text x="560" y="311" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="600" fill="#4A1B0C">RDS instance</text>
+  <text x="560" y="329" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#993C1D">KMS-encrypted,</text>
+  <text x="560" y="345" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#993C1D">+ read replica, alarms</text>
 
-  <!-- EB Environment resource -->
-  <rect x="365" y="455" width="245" height="65" rx="10" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
-  <text x="487" y="476" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="600" fill="#4A1B0C">EB environment</text>
-  <text x="487" y="493" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#993C1D">snack-recommender-&lt;env&gt;</text>
-  <text x="487" y="509" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#993C1D">EC2 + load balancer + ASG</text>
+  <!-- IAM role -->
+  <rect x="680" y="290" width="200" height="40" rx="10" fill="#FAEEDA" stroke="#ba7517" stroke-width="1"/>
+  <text x="780" y="308" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="600" fill="#412402">IAM role</text>
+  <text x="780" y="324" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#854f0b">per-environment</text>
 
-  <!-- dashed reference: environment references application by name, does not create it -->
-  <path d="M 365 487 L 335 487 L 335 417 L 307 417" fill="none" stroke="#993C1D" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#arrow)"/>
+  <line x1="780" y1="330" x2="780" y2="345" stroke="#5f5e5a" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- EB Environment -->
+  <rect x="680" y="345" width="200" height="75" rx="10" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
+  <text x="780" y="365" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="600" fill="#4A1B0C">EB environment</text>
+  <text x="780" y="382" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#993C1D">snack-recommender-&lt;env&gt;</text>
+  <text x="780" y="399" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#993C1D">now VPC-configured</text>
+  <text x="780" y="414" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#993C1D">(was the real bug)</text>
+
+  <text x="780" y="437" text-anchor="middle" font-family="sans-serif" font-size="10" font-style="italic" fill="#5f5e5a">references NetworkStack's SG +</text>
+  <text x="780" y="450" text-anchor="middle" font-family="sans-serif" font-size="10" font-style="italic" fill="#5f5e5a">DatabaseStack's host/secret</text>
 
   <!-- App pipeline (external) -->
-  <line x1="487" y1="565" x2="487" y2="540" stroke="#185fa5" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#arrow-blue)"/>
+  <line x1="780" y1="480" x2="780" y2="465" stroke="#185fa5" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#arrow-blue)"/>
 
-  <rect x="365" y="565" width="245" height="70" rx="10" fill="#F1EFE8" stroke="#888780" stroke-width="1"/>
-  <text x="487" y="588" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="600" fill="#2c2c2a">App pipeline (external)</text>
-  <text x="487" y="605" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#5f5e5a">Updates code via the EB API</text>
-  <text x="487" y="621" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#5f5e5a">directly — not through cdk deploy</text>
+  <rect x="680" y="480" width="200" height="65" rx="10" fill="#F1EFE8" stroke="#888780" stroke-width="1"/>
+  <text x="780" y="502" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="600" fill="#2c2c2a">App pipeline (external)</text>
+  <text x="780" y="519" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#5f5e5a">Updates code via the EB API —</text>
+  <text x="780" y="534" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#5f5e5a">not through cdk deploy</text>
 
   <!-- Legend -->
-  <rect x="40" y="655" width="14" height="14" rx="3" fill="#F1EFE8" stroke="#888780"/>
-  <text x="60" y="666" font-family="sans-serif" font-size="11" fill="#5f5e5a">CDK entry / external</text>
-  <rect x="180" y="655" width="14" height="14" rx="3" fill="#EEEDFE" stroke="#7f77dd"/>
-  <text x="200" y="666" font-family="sans-serif" font-size="11" fill="#5f5e5a">Stack</text>
-  <rect x="250" y="655" width="14" height="14" rx="3" fill="#E1F5EE" stroke="#1d9e75"/>
-  <text x="270" y="666" font-family="sans-serif" font-size="11" fill="#5f5e5a">Construct</text>
-  <rect x="340" y="655" width="14" height="14" rx="3" fill="#FAEEDA" stroke="#ba7517"/>
-  <text x="360" y="666" font-family="sans-serif" font-size="11" fill="#5f5e5a">IAM</text>
-  <rect x="400" y="655" width="14" height="14" rx="3" fill="#FAECE7" stroke="#D85A30"/>
-  <text x="420" y="666" font-family="sans-serif" font-size="11" fill="#5f5e5a">EB resource</text>
+  <rect x="20" y="580" width="14" height="14" rx="3" fill="#F1EFE8" stroke="#888780"/>
+  <text x="40" y="591" font-family="sans-serif" font-size="11" fill="#5f5e5a">CDK entry / external</text>
+  <rect x="180" y="580" width="14" height="14" rx="3" fill="#EEEDFE" stroke="#7f77dd"/>
+  <text x="200" y="591" font-family="sans-serif" font-size="11" fill="#5f5e5a">Stack</text>
+  <rect x="270" y="580" width="14" height="14" rx="3" fill="#FAEEDA" stroke="#ba7517"/>
+  <text x="290" y="591" font-family="sans-serif" font-size="11" fill="#5f5e5a">IAM</text>
+  <rect x="350" y="580" width="14" height="14" rx="3" fill="#FAECE7" stroke="#D85A30"/>
+  <text x="370" y="591" font-family="sans-serif" font-size="11" fill="#5f5e5a">Real AWS resource</text>
+
+  <text x="450" y="615" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#888780">Full story: docs/journal/2026-09-18/01-rds-and-eb-security-group-fix.md</text>
 </svg>

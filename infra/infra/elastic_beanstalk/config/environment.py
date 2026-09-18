@@ -1,10 +1,10 @@
 from dataclasses import dataclass, field
 
-from infra.config import ENVIRONMENT_NAMES
-
 from .scaling import AutoScalingConfig
 from .instance import InstanceConfig
 from .iam import IamConfig
+
+ENVIRONMENT_NAMES: list[str] = ["dev", "test", "stage", "prod"]
 
 
 @dataclass(frozen=True)
@@ -14,6 +14,11 @@ class EnvConfig:
     scaling: AutoScalingConfig
     instance: InstanceConfig = field(default_factory=InstanceConfig)
     iam: IamConfig = field(default_factory=IamConfig)
+    # us-east-1e in this account doesn't support t3 instance types (confirmed by a
+    # real deploy failure). AWS randomizes each account's AZ name-to-physical
+    # mapping, so this is account-specific. Kept as real per-env data since a
+    # future environment with a different instance_type could need different AZs.
+    availability_zones: list[str] = field(default_factory=lambda: ["us-east-1a", "us-east-1b"])
 
 
 ENVIRONMENTS: dict[str, EnvConfig] = {
@@ -36,9 +41,6 @@ ENVIRONMENTS: dict[str, EnvConfig] = {
     ),
 }
 
-# Guards against elastic_beanstalk silently drifting from the shared environment list —
-# e.g. someone adds "canary" here without updating infra/infra/config/environments.py.
 assert set(ENVIRONMENTS.keys()) == set(ENVIRONMENT_NAMES), (
-    f"elastic_beanstalk ENVIRONMENTS keys {set(ENVIRONMENTS.keys())} don't match "
-    f"the shared ENVIRONMENT_NAMES {set(ENVIRONMENT_NAMES)}"
+    f"ENVIRONMENTS keys {set(ENVIRONMENTS.keys())} don't match ENVIRONMENT_NAMES {set(ENVIRONMENT_NAMES)}"
 )

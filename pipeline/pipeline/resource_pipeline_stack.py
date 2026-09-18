@@ -38,14 +38,33 @@ class ResourcePipelineStack(Stack):
 
         account, region = self.account, self.region
 
-        # dev's deploy also creates the shared Application, once — every other
-        # environment only ever deploys its own environment stack.
-        self._add_deploy_stage("dev", ["SnackRecommenderApplication", "SnackRecommenderInfra-dev"], account, region)
-        self._add_deploy_stage("test", ["SnackRecommenderInfra-test"], account, region)
+        self._add_deploy_stage(
+            "dev",
+            [
+                "SnackRecommenderApplication",
+                "SnackRecommenderNetwork-dev",
+                "SnackRecommenderDatabase-dev",
+                "SnackRecommenderInfra-dev",
+            ],
+            account, region,
+        )
+        self._add_deploy_stage(
+            "test",
+            ["SnackRecommenderNetwork-test", "SnackRecommenderDatabase-test", "SnackRecommenderInfra-test"],
+            account, region,
+        )
         self._add_approval_stage("BeforeStage")
-        self._add_deploy_stage("stage", ["SnackRecommenderInfra-stage"], account, region)
+        self._add_deploy_stage(
+            "stage",
+            ["SnackRecommenderNetwork-stage", "SnackRecommenderDatabase-stage", "SnackRecommenderInfra-stage"],
+            account, region,
+        )
         self._add_approval_stage("BeforeProd")
-        self._add_deploy_stage("prod", ["SnackRecommenderInfra-prod"], account, region)
+        self._add_deploy_stage(
+            "prod",
+            ["SnackRecommenderNetwork-prod", "SnackRecommenderDatabase-prod", "SnackRecommenderInfra-prod"],
+            account, region,
+        )
 
     def _add_deploy_stage(self, env_name: str, stack_names: list[str], account: str, region: str) -> None:
         deploy = CdkDeployProject(

@@ -4,7 +4,7 @@ Directory structure, as of the first successful `cdk deploy`:
 
 ```
 sentinel/                              # repo root
-  infra/                               # CDK project — provisions EB now, more AWS resources later
+  infra/                               # CDK project — provisions EB and RDS
     .venv/
     cdk.out/
     infra/                             # Python package (named after the "infra/" folder — CDK convention)
@@ -12,22 +12,37 @@ sentinel/                              # repo root
       elastic_beanstalk/               # one submodule per independently-deployable resource
         __init__.py
         application_stack.py           # owns the EB Application — deployed once, ever
+        network_stack.py               # owns the EB security group — deployed once, rarely touched
         environment_stack.py           # owns one environment's IAM role + EB Environment
         config/
           __init__.py
           scaling.py
           instance.py
           iam.py                       # suffixes only — app_name is passed in, not hardcoded
-          environment.py               # EnvConfig + ENVIRONMENTS + ENVIRONMENT_NAMES (inline —
-        constructs/                    # extract to a shared module if a second consumer needs it)
+          environment.py               # EnvConfig + ENVIRONMENTS + ENVIRONMENT_NAMES + AZs, all inline
+        constructs/
           __init__.py
-          app_bundle.py                # S3 asset -> EB ApplicationVersion — standalone bootstrap
-          elastic_beanstalk_application.py   # tool only; NOT wired into routine deploys (see journal)
-          elastic_beanstalk_environment.py   # creates one Environment only, never an Application
-          web_app_instance_role.py
-      # future: database/ lives here as its own sibling submodule, same shape as elastic_beanstalk/
+          elastic_beanstalk_application.py    # creates the Application (used by application_stack.py)
+          elastic_beanstalk_environment.py    # creates one Environment; sets aws:ec2:vpc explicitly
+          elastic_beanstalk_instance_role.py  # renamed from web_app_instance_role.py
+          elastic_beanstalk_security_group.py # renamed from web_app_security_group.py
+      rds/                              # sibling submodule, same shape as elastic_beanstalk/
+        __init__.py
+        database_stack.py              # one per environment; independent of EB, no consumer
+        config/                        # knowledge baked in at construction time
+          __init__.py
+          database.py                  # DatabaseConfig + DATABASE_CONFIGS
+        constructs/
+          __init__.py
+          database_instance.py         # primary; allow_ingress_from() granted by consumers, not
+          database_read_replica.py     # required at construction (see 2026-09-18 journal entry)
+          database_encryption_key.py   # shared by storage + the Secrets Manager credential
+          database_alarms.py           # high CPU + low storage; no notification wired up yet
+      # future: a third resource type (ecs/, kafka/, etc.) lives here as its own sibling submodule
     tests/
-    app.py                             # always creates ApplicationStack once + one EnvironmentStack
+    app.py                             # composition root: ApplicationStack, NetworkStack, DatabaseStack,
+                                        # EnvironmentStack, wired together; grants happen here, not in
+                                        # any one stack's constructor
     cdk.json
     requirements.txt
     requirements-dev.txt
@@ -54,7 +69,7 @@ sentinel/                              # repo root
     pipeline/                          # Python package (named after the "pipeline/" folder)
       __init__.py
       pipeline_stack.py                # app deploys: build once, promote dev->test->[approval]->
-      resource_pipeline_stack.py       # stage->[approval]->prod (same shape, deploys infra/ stacks)
+      resource_pipeline_stack.py       # stage->[approval]->prod, deploying Network->Database->Environment
       config/
         __init__.py
         targets.py                     # TargetRef / TARGETS — one entry per (app, environment)
@@ -74,7 +89,7 @@ sentinel/                              # repo root
     pr-convention.md                   # title/description format, tied to .github/PULL_REQUEST_TEMPLATE.md
     elastic-beanstalk/                 # docs stay scoped by component, even though the code doesn't
       deploy-flow.md
-      flow-diagram.svg                 # NOTE: still shows the old single-stack model, not yet updated
+      flow-diagram.svg
     snack-recommender/
       overview.md                      # data model + API reference (README covers setup instead)
     journal/                           # chronological, cross-cutting — not split by component
@@ -93,15 +108,18 @@ sentinel/                              # repo root
         04-resource-pipeline-and-connection-fix.md
       2026-09-17/
         01-application-environment-separation.md
+      2026-09-18/
+        01-rds-and-eb-security-group-fix.md
 ```
 
 The CDK project itself is not named after Elastic Beanstalk — it's the general
-infrastructure-as-code project for this app, and EB is just the first thing it provisions.
-Future AWS resources (RDS, etc.) get their own submodule inside `infra/infra/` (same shape as
-`elastic_beanstalk/`: its own `infra_stack.py`, `config/`, and `constructs/`), keeping each
-resource independently deployable within the one CDK app. Their docs still get their own
-subfolder under `docs/`, since documentation benefits from being scoped by topic even when the
-underlying code doesn't split that way.
+infrastructure-as-code project for this app. `rds/` confirms the pattern holds for a second
+resource type: its own `config/`/`constructs/`/`*_stack.py`, independently deployable, no
+knowledge of any specific consumer baked into its constructor — see
+`docs/journal/2026-09-18/01-rds-and-eb-security-group-fix.md` for how that decoupling was
+corrected after an early draft got it backwards. Their docs still get their own subfolder under
+`docs/`, since documentation benefits from being scoped by topic even when the underlying code
+doesn't split that way.
 
 ## Design principle: config vs. constructs vs. stack
 

@@ -1,6 +1,6 @@
-from .scaling import AutoScalingConfig
-from .instance import InstanceConfig
+from .environment import ENVIRONMENTS, EnvConfig
 from .iam import IamConfig
-from .environment import EnvConfig, ENVIRONMENTS
+from .instance import InstanceConfig
+from .scaling import AutoScalingConfig
 
-__all__ = ["AutoScalingConfig", "InstanceConfig", "IamConfig", "EnvConfig", "ENVIRONMENTS"]
+__all__ = ["ENVIRONMENTS", "EnvConfig", "IamConfig", "InstanceConfig", "AutoScalingConfig"]
