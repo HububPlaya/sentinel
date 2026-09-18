@@ -9,26 +9,25 @@ sentinel/                              # repo root
     cdk.out/
     infra/                             # Python package (named after the "infra/" folder — CDK convention)
       __init__.py
-      config/                          # shared across every resource submodule — not owned by one
-        __init__.py
-        environments.py                # canonical ENVIRONMENT_NAMES list
       elastic_beanstalk/               # one submodule per independently-deployable resource
         __init__.py
-        infra_stack.py                 # Stack: composition root for this resource
+        application_stack.py           # owns the EB Application — deployed once, ever
+        environment_stack.py           # owns one environment's IAM role + EB Environment
         config/
           __init__.py
           scaling.py
           instance.py
           iam.py                       # suffixes only — app_name is passed in, not hardcoded
-          environment.py
-        constructs/
+          environment.py               # EnvConfig + ENVIRONMENTS + ENVIRONMENT_NAMES (inline —
+        constructs/                    # extract to a shared module if a second consumer needs it)
           __init__.py
-          app_bundle.py                # S3 asset -> EB ApplicationVersion (bootstrap-only; see journal)
-          web_app_hosting.py
+          app_bundle.py                # S3 asset -> EB ApplicationVersion — standalone bootstrap
+          elastic_beanstalk_application.py   # tool only; NOT wired into routine deploys (see journal)
+          elastic_beanstalk_environment.py   # creates one Environment only, never an Application
           web_app_instance_role.py
       # future: database/ lives here as its own sibling submodule, same shape as elastic_beanstalk/
     tests/
-    app.py                             # CDK entry point — app_name="snack-recommender"
+    app.py                             # always creates ApplicationStack once + one EnvironmentStack
     cdk.json
     requirements.txt
     requirements-dev.txt
@@ -54,22 +53,28 @@ sentinel/                              # repo root
     cdk.out/
     pipeline/                          # Python package (named after the "pipeline/" folder)
       __init__.py
-      pipeline_stack.py                # Source (GitHub) -> Build (CodeBuild) -> Deploy (DeployTarget)
+      pipeline_stack.py                # app deploys: build once, promote dev->test->[approval]->
+      resource_pipeline_stack.py       # stage->[approval]->prod (same shape, deploys infra/ stacks)
       config/
         __init__.py
-        targets.py                     # TargetRef / TARGETS registry — the shared-config alternative
-      constructs/                      # to a CDK cross-stack reference; see journal for why
+        targets.py                     # TargetRef / TARGETS — one entry per (app, environment)
+      constructs/
         __init__.py
         deploy_target.py               # DeployTarget Protocol — pipeline depends on this, not on EB
-        elastic_beanstalk_deploy_target.py
-    app.py
+        elastic_beanstalk_deploy_target.py   # ElasticBeanstalkDeployAction, used by PipelineStack
+        github_source_action.py        # Source action against an EXISTING, shared connection ARN —
+        test_build_project.py          # the only way any pipeline touches GitHub; avoids
+        cdk_deploy_project.py          # re-authorization. cdk_deploy_project.py runs `cdk deploy
+                                        # <stack names> -c env=X` for ResourcePipelineStack
+    app.py                             # GITHUB_BRANCH="main", one shared connection_arn for both stacks
     cdk.json
     requirements.txt
   docs/                                # this folder
     infra-overview.md
+    pr-convention.md                   # title/description format, tied to .github/PULL_REQUEST_TEMPLATE.md
     elastic-beanstalk/                 # docs stay scoped by component, even though the code doesn't
       deploy-flow.md
-      flow-diagram.svg
+      flow-diagram.svg                 # NOTE: still shows the old single-stack model, not yet updated
     snack-recommender/
       overview.md                      # data model + API reference (README covers setup instead)
     journal/                           # chronological, cross-cutting — not split by component
@@ -85,6 +90,9 @@ sentinel/                              # repo root
         01-app-name-fix-and-shared-config.md
         02-pipeline-build.md
         03-pipeline-confirmed-working.md
+        04-resource-pipeline-and-connection-fix.md
+      2026-09-17/
+        01-application-environment-separation.md
 ```
 
 The CDK project itself is not named after Elastic Beanstalk — it's the general
@@ -104,10 +112,12 @@ Three distinct layers, kept deliberately separate:
   without knowing *how* to create it.
 - **`constructs/`** — CDK logic. Each construct is responsible for provisioning one coherent
   piece of infrastructure, named after what it does (not the AWS service it happens to wrap).
-- **`infra_stack.py`** — composition only. Wires constructs together and passes config down. It
-  should never contain provisioning logic itself.
+- **`application_stack.py`** / **`environment_stack.py`** — composition only. Wire constructs
+  together and pass config down. Neither should ever contain provisioning logic itself. Split
+  into two files, not one, because an EB Application and an EB Environment have different
+  deploy lifecycles (once, ever vs. once per environment) — see `elastic-beanstalk/deploy-flow.md`.
 
-For how these three layers actually work together to deploy an app to Elastic Beanstalk, see
+For how these layers actually work together to deploy an app to Elastic Beanstalk, see
 **`elastic-beanstalk/deploy-flow.md`**.
 
 ## Known pinned values

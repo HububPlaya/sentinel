@@ -1,16 +1,32 @@
 # How this deploys an app to Elastic Beanstalk
 
-This walks through what actually happens, in order, when you run `cdk deploy -c env=dev` —
-from config selection down to a running EC2 instance.
+This walks through what actually happens, from config selection down to a running EC2 instance,
+and separately, how real app code actually gets onto that instance.
+
+## Two separate things, two separate stacks
+
+An Elastic Beanstalk **Application** is a single, account-wide container. An Elastic Beanstalk
+**Environment** is the actual running thing (EC2, load balancer, ASG) — many Environments live
+under one Application. Because of that, provisioning is split into two CDK stacks with very
+different lifecycles:
+
+- **`ApplicationStack`** — creates the Application. Deployed **once, ever**, not per-environment.
+- **`EnvironmentStack`** (one per `-c env=` value) — creates one environment's IAM role and EB
+  Environment. Requires the Application to already exist; never creates one itself.
+
+Earlier versions of this project had one stack create both per environment, which meant every
+environment tried to `CreateApplication` with the same name — the second one always failed.
+See `docs/journal/2026-09-17/01-application-environment-separation.md` for the full story.
 
 ## 1. Config defines what each environment looks like
 
-`config/environment.py` holds one `EnvConfig` per environment (`dev`, `test`, `stage`, `prod`),
-each built from three smaller pieces:
+`elastic_beanstalk/config/environment.py` holds one `EnvConfig` per environment (`dev`, `test`,
+`stage`, `prod`), each built from three smaller pieces:
 
 - `scaling.py` → `AutoScalingConfig` — min/max instance count for that environment
 - `instance.py` → `InstanceConfig` — instance type (defaults to `t3.micro`)
-- `iam.py` → `IamConfig` — base names for the IAM role/instance profile
+- `iam.py` → `IamConfig` — suffixes for the IAM role/instance profile (combined with `app_name`
+  at construction time, not hardcoded)
 
 ```python
 ENVIRONMENTS = {
@@ -22,76 +38,100 @@ ENVIRONMENTS = {
 }
 ```
 
-This dictionary is the only place environment sizing is defined. Nothing downstream hardcodes
-instance counts or types.
+This dictionary is the only place environment sizing is defined.
 
-## 2. `app.py` picks one environment
+## 2. `app.py` always creates the Application, plus one Environment
 
 ```python
+env = cdk.Environment(account=..., region=...)
+
+ApplicationStack(app, "SnackRecommenderApplication", app_name="snack-recommender", env=env)
+
 target_env = app.node.try_get_context("env") or "dev"
 env_config = ENVIRONMENTS[target_env]
+
+EnvironmentStack(
+    app, f"SnackRecommenderInfra-{target_env}",
+    app_name="snack-recommender", env_config=env_config, env=env,
+)
 ```
 
-The `-c env=dev` flag on the CLI is what selects which `EnvConfig` gets used. Same code path
-for every environment — only the data changes.
+Since `app.py` now always synthesizes two stacks, `cdk` commands need an explicit stack name —
+a bare `cdk deploy -c env=test` will error once more than one stack exists.
 
-## 3. `InfraStack` composes two constructs, in order
+## 3. `ApplicationStack` — deployed once
+
+```python
+self.application = ElasticBeanstalkApplication(self, "Application", app_name=app_name)
+```
+
+Creates a single `CfnApplication`. That's it. No dependency on any environment.
+
+## 4. `EnvironmentStack` composes two constructs, for one environment
 
 ```python
 self.instance_role = WebAppInstanceRole(self, "WebAppInstanceRole",
-    env_name=env_config.env_name, iam_config=env_config.iam)
+    app_name=app_name, env_name=env_config.env_name, iam_config=env_config.iam)
 
-self.web_app_hosting = WebAppHosting(self, "WebAppHosting",
+self.eb_environment = ElasticBeanstalkEnvironment(self, "Environment",
     app_name=app_name, env_config=env_config,
-    instance_profile_name=self.instance_role.instance_profile.instance_profile_name)
+    instance_profile_name=self.instance_role.instance_profile.ref)
 ```
 
-The role is created first, because `WebAppHosting` needs its instance profile name as an input.
+The role is created first, since `ElasticBeanstalkEnvironment` needs its instance profile as an
+input. Note `.ref`, not `.instance_profile_name` — a real CloudFormation token, so CFN tracks
+the dependency automatically rather than relying on a plain string matching up correctly.
 
-## 4. `WebAppInstanceRole` creates what EC2 needs to run at all
+## 5. `WebAppInstanceRole` creates what EC2 needs to run at all
 
-An EC2 instance can't do anything in AWS until it has permission to. This construct creates:
+- An **IAM role** trusting `ec2.amazonaws.com`
+- Two **AWS-managed policies** — `AWSElasticBeanstalkWebTier`, `AWSElasticBeanstalkMulticontainerDocker`
+- An **instance profile** wrapping that role
 
-- An **IAM role** that EC2 instances are allowed to assume (`ec2.amazonaws.com` as the trusted
-  principal)
-- Two **AWS-managed policies** attached to it — `AWSElasticBeanstalkWebTier` and
-  `AWSElasticBeanstalkMulticontainerDocker` — the same permission set EB's own console wizard
-  attaches by default
-- An **instance profile** wrapping that role, which is the actual thing EC2 launch
-  configuration references
+Role and profile names are built from `app_name` + a suffix, so renaming the app never requires
+touching `iam.py`.
 
-Without this, `cdk deploy` would fail — Elastic Beanstalk requires a valid instance profile to
-launch any instance.
+## 6. `ElasticBeanstalkEnvironment` creates the actual running environment
 
-## 5. `WebAppHosting` creates the Elastic Beanstalk application and environment
+One `CfnEnvironment` — EC2 instance(s), a load balancer, an ASG — using:
+- `solution_stack_name` — Python 3.13 on Amazon Linux 2023
+- `IamInstanceProfile` from step 5
+- `MinSize`/`MaxSize` from the environment's scaling config
+- `application_name` — references the Application by name; assumes it already exists
 
-Two separate AWS resources, created in order:
+**No `version_label` is set here.** A freshly created environment has none, and briefly serves
+EB's default sample app — expected, not a bug. Getting real code onto it is a separate step
+(next section), not something `EnvironmentStack` does.
 
-- **`CfnApplication`** — the logical container/project (`webapp`). This holds no compute by
-  itself.
-- **`CfnEnvironment`** — the actual running deployment. This is where the real provisioning
-  happens: EB stands up an EC2 instance (or instances, per `AutoScalingConfig`), a load
-  balancer, and a security group, using:
-  - `solution_stack_name` to pick the OS/runtime image (Python 3.13 on Amazon Linux 2023)
-  - `IamInstanceProfile` (passed in from step 4) so the instance has permission to run
-  - `MinSize`/`MaxSize` from the environment's scaling config
+## 7. Getting real code onto an environment — the app pipeline, not `cdk deploy`
 
-The environment has an explicit `add_resource_dependency` on the application, so CloudFormation
-creates them in the correct order.
+`EnvironmentStack` only provisions the *shell*. Ongoing code deploys are owned by the app
+pipeline (`pipeline/`, `PipelineStack`) — it builds the app once and promotes that artifact
+through `dev → test → [approval] → stage → [approval] → prod` via Elastic Beanstalk's native
+CodePipeline deploy action, calling the EB API (`CreateApplicationVersion`/`UpdateEnvironment`)
+directly — not through CloudFormation.
 
-## 6. What's actually running after deploy
+This is deliberate: `cdk deploy` on `EnvironmentStack` should never need to know or care what
+code is currently running. An `AppBundle` construct exists for one narrow, manual case —
+bootstrapping a brand-new environment with real code already on it — but it is **not** wired
+into `EnvironmentStack`'s routine deploys. If it were, every infra-only change (resizing an
+instance, say) would fight the app pipeline's most recent deploy.
 
-Once `CREATE_COMPLETE` is reached, EB has a live EC2 instance behind a load balancer, reachable
-at a generated URL (`<app>-<env>.<region>.elasticbeanstalk.com`, HTTP only — HTTPS isn't
-configured yet). No app code has been pushed yet, so it's currently serving Elastic Beanstalk's
-default sample app. That placeholder gets replaced once a real application version is deployed
-into this same environment.
+## 8. Ordering rule the pipelines rely on, not something CDK enforces
+
+The Application must exist before any environment's first deploy. In practice: the resource
+pipeline (`ResourcePipelineStack`) always deploys `dev` first — `["SnackRecommenderApplication",
+"SnackRecommenderInfra-dev"]` — before `test`, `stage`, or `prod`, which each only deploy their
+own `SnackRecommenderInfra-<env>`. This is a deployment-sequencing fact the pipeline is built to
+respect, not something CloudFormation tracks as a resource dependency across separate stacks.
 
 ## Command reference
 
 ```
-cdk synth -c env=dev       # generate the CloudFormation template locally, no AWS calls
-cdk diff -c env=dev        # preview what would change
-cdk deploy -c env=dev      # create/update the real resources
-cdk destroy -c env=dev     # tear it down
+cdk synth                                  # generate templates for both stacks, no AWS calls
+cdk diff SnackRecommenderApplication       # preview the Application stack
+cdk diff SnackRecommenderInfra-dev         # preview one environment's stack
+cdk deploy SnackRecommenderApplication     # create/update the Application (once, ever)
+cdk deploy SnackRecommenderInfra-dev       # create/update one environment
+cdk destroy SnackRecommenderInfra-test     # tear down one environment (Application untouched)
 ```
