@@ -49,7 +49,7 @@ app_environment_variables = {
 }
 if database_stack.read_replica:
     app_environment_variables["DB_READ_HOST"] = database_stack.read_replica.instance.db_instance_endpoint_address
-    
+
 environment_stack = EnvironmentStack(
     app, f"SnackRecommenderInfra-{target_env}",
     app_name=APP_NAME, env_config=env_config,
@@ -81,10 +81,26 @@ if database_stack.read_replica:
         description="Postgres access from EB app instances (reads)",
     )
 
+# Layer 1: permission to read the secret at all.
 environment_stack.instance_role.role.add_to_policy(
     iam.PolicyStatement(
         actions=["secretsmanager:GetSecretValue"],
         resources=[database_stack.database.instance.secret.secret_arn],
+    )
+)
+
+# Layer 2: permission to decrypt it -- the secret is encrypted with our own
+# customer-managed KMS key (see DatabaseEncryptionKey), not the AWS-managed
+# default, so reading the secret's contents also requires this separate grant.
+# Written as a plain policy statement, not key.grant_decrypt(role) -- that method
+# modifies the key's own resource policy (in DatabaseStack), which would force
+# DatabaseStack to import EnvironmentStack's role ARN and recreate the same
+# circular-dependency shape already hit twice today with the ingress rule and the
+# secret grant above. This only imports the key's ARN as a string -- one direction.
+environment_stack.instance_role.role.add_to_policy(
+    iam.PolicyStatement(
+        actions=["kms:Decrypt", "kms:DescribeKey"],
+        resources=[database_stack.encryption_key.key.key_arn],
     )
 )
 
