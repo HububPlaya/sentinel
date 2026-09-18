@@ -3,7 +3,7 @@ from constructs import Construct
 from infra.elastic_beanstalk.config import EnvConfig
 
 
-class WebAppHosting(Construct):
+class ElasticBeanstalkEnvironment(Construct):
     def __init__(
         self,
         scope: Construct,
@@ -15,13 +15,7 @@ class WebAppHosting(Construct):
         version_label: str | None = None,
     ) -> None:
         super().__init__(scope, construct_id)
-
-        self.application = self._create_application(app_name)
         self.environment = self._create_environment(app_name, env_config, instance_profile_name, version_label)
-        self.environment.add_resource_dependency(self.application)
-
-    def _create_application(self, app_name: str) -> eb.CfnApplication:
-        return eb.CfnApplication(self, "Application", application_name=app_name)
 
     def _create_environment(
         self, app_name: str, cfg: EnvConfig, instance_profile_name: str, version_label: str | None

@@ -3,10 +3,20 @@ import os
 
 import aws_cdk as cdk
 
-from infra.elastic_beanstalk.infra_stack import InfraStack
+from infra.elastic_beanstalk.application_stack import ApplicationStack
+from infra.elastic_beanstalk.environment_stack import EnvironmentStack
 from infra.elastic_beanstalk.config import ENVIRONMENTS
 
 app = cdk.App()
+
+APP_NAME = "snack-recommender"
+
+env = cdk.Environment(
+    account=os.getenv("CDK_DEFAULT_ACCOUNT"),
+    region=os.getenv("CDK_DEFAULT_REGION"),
+)
+
+ApplicationStack(app, "SnackRecommenderApplication", app_name=APP_NAME, env=env)
 
 target_env = app.node.try_get_context("env") or "dev"
 
@@ -15,17 +25,11 @@ if target_env not in ENVIRONMENTS:
 
 env_config = ENVIRONMENTS[target_env]
 
-APP_SOURCE_PATH = os.path.join(os.path.dirname(__file__), "..", "test-apps", "snack-recommender")
-
-InfraStack(
+EnvironmentStack(
     app, f"SnackRecommenderInfra-{target_env}",
-    app_name="snack-recommender",
+    app_name=APP_NAME,
     env_config=env_config,
-    app_source_path=APP_SOURCE_PATH,
-    env=cdk.Environment(
-        account=os.getenv("CDK_DEFAULT_ACCOUNT"),
-        region=os.getenv("CDK_DEFAULT_REGION"),
-    ),
+    env=env,
 )
 
 app.synth()
