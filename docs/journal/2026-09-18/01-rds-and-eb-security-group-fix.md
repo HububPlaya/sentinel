@@ -1,7 +1,7 @@
 ---
 date: 2026-09-18
 sequence: 01
-commit: <fill in after committing>
+commit: 2767391
 ---
 
 # RDS built, EB security group bug hunted to its real cause
