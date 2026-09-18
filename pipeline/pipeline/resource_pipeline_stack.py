@@ -38,17 +38,20 @@ class ResourcePipelineStack(Stack):
 
         account, region = self.account, self.region
 
-        self._add_deploy_stage("dev", account, region)
-        self._add_deploy_stage("test", account, region)
+        # dev's deploy also creates the shared Application, once — every other
+        # environment only ever deploys its own environment stack.
+        self._add_deploy_stage("dev", ["SnackRecommenderApplication", "SnackRecommenderInfra-dev"], account, region)
+        self._add_deploy_stage("test", ["SnackRecommenderInfra-test"], account, region)
         self._add_approval_stage("BeforeStage")
-        self._add_deploy_stage("stage", account, region)
+        self._add_deploy_stage("stage", ["SnackRecommenderInfra-stage"], account, region)
         self._add_approval_stage("BeforeProd")
-        self._add_deploy_stage("prod", account, region)
+        self._add_deploy_stage("prod", ["SnackRecommenderInfra-prod"], account, region)
 
-    def _add_deploy_stage(self, env_name: str, account: str, region: str) -> None:
+    def _add_deploy_stage(self, env_name: str, stack_names: list[str], account: str, region: str) -> None:
         deploy = CdkDeployProject(
             self, f"Deploy{env_name.capitalize()}",
             env_name=env_name,
+            stack_names=stack_names,
             input_artifact=self.source.output,
             account=account,
             region=region,

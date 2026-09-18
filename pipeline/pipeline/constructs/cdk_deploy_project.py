@@ -14,11 +14,14 @@ class CdkDeployProject(Construct):
         construct_id: str,
         *,
         env_name: str,
+        stack_names: list[str],
         input_artifact: codepipeline.Artifact,
         account: str,
         region: str,
     ) -> None:
         super().__init__(scope, construct_id)
+
+        stacks_arg = " ".join(stack_names)
 
         self.project = codebuild.PipelineProject(
             self, "Project",
@@ -36,7 +39,7 @@ class CdkDeployProject(Construct):
                     "build": {
                         "commands": [
                             "cd $CODEBUILD_SRC_DIR/infra",
-                            f"cdk deploy -c env={env_name} --require-approval never",
+                            f"cdk deploy {stacks_arg} -c env={env_name} --require-approval never",
                         ],
                     },
                 },
