@@ -45,6 +45,7 @@ app_environment_variables = {
     "DB_PORT": database_stack.database.instance.db_instance_endpoint_port,
     "DB_NAME": database_stack.database.database_name,
     "DB_SECRET_ARN": database_stack.database.instance.secret.secret_arn,
+    "AWS_REGION": env.region,
 }
 if database_stack.read_replica:
     app_environment_variables["DB_READ_HOST"] = database_stack.read_replica.instance.db_instance_endpoint_address
