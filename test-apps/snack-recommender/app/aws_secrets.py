@@ -47,6 +47,7 @@ def get_database_read_url() -> str | None:
 def _fetch_secret(secret_arn: str) -> dict:
     client = boto3.client(
         "secretsmanager",
+        region_name=os.environ["DB_SECRET_REGION"],
         config=BotoConfig(retries={"max_attempts": 5, "mode": "standard"}),
     )
     response = client.get_secret_value(SecretId=secret_arn)
