@@ -27,10 +27,6 @@ class ElasticBeanstalkEnvironment(Construct):
     def _create_environment(
         self, app_name, cfg, instance_profile_name, security_group_id, vpc, version_label, app_environment_variables,
     ) -> eb.CfnEnvironment:
-        # Explicit AZ selection from cfg -- us-east-1e in this account doesn't
-        # support t3 instance types (confirmed by a real deploy failure). AWS
-        # randomizes each account's AZ name-to-physical mapping, so this is
-        # account-specific, not universal.
         selected = vpc.select_subnets(
             subnet_type=ec2.SubnetType.PUBLIC,
             availability_zones=cfg.availability_zones,
@@ -58,6 +54,16 @@ class ElasticBeanstalkEnvironment(Construct):
             eb.CfnEnvironment.OptionSettingProperty(
                 namespace="aws:autoscaling:launchconfiguration",
                 option_name="SecurityGroups", value=security_group_id,
+            ),
+            # This account can no longer create EC2 Launch Configurations (deprecated
+            # AWS-wide for new accounts as of Oct 1 2024) -- a real Rebuild attempt
+            # failed outright without this. Setting DisableIMDSv1 explicitly tells EB
+            # to provision via a Launch Template instead, which is also a genuine
+            # security improvement (IMDSv2-only blocks a known SSRF credential-theft
+            # vector), not purely a workaround.
+            eb.CfnEnvironment.OptionSettingProperty(
+                namespace="aws:autoscaling:launchconfiguration",
+                option_name="DisableIMDSv1", value="true",
             ),
             eb.CfnEnvironment.OptionSettingProperty(
                 namespace="aws:autoscaling:asg", option_name="MinSize", value=str(cfg.scaling.min_instances),

@@ -90,6 +90,8 @@ sentinel/                              # repo root
     elastic-beanstalk/                 # docs stay scoped by component, even though the code doesn't
       deploy-flow.md
       flow-diagram.svg
+    rds/
+      overview.md                      # what's provisioned, design decisions, and known limitations
     snack-recommender/
       overview.md                      # data model + API reference (README covers setup instead)
     journal/                           # chronological, cross-cutting — not split by component
