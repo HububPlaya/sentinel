@@ -1,7 +1,7 @@
 ---
 date: 2026-09-18
 sequence: 03
-commit: <fill in after committing>
+commit: 7d8cfb4
 ---
 
 # Launch Configuration deprecation, and real migrations via Flask-Migrate
