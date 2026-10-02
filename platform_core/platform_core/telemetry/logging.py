@@ -36,6 +36,7 @@ class PlatformLogger:
             )
 
         record["message"] = message
+        record.update(fields)
         self._stream.write(json.dumps(record) + "\n")
 
     def info(self, message: str, **fields) -> None:

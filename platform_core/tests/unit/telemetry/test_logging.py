@@ -35,3 +35,15 @@ def test_invalid_severity_is_rejected():
         logger.log("oops", "something happened")
 
     assert stream.getvalue() == ""
+
+
+def test_custom_fields_extend_the_schema():
+    bind_context(trace_id="abc-123", app_id="snack-recommender", team="platform-eng", environment="staging")
+    stream = io.StringIO()
+    logger = PlatformLogger(stream=stream)
+
+    logger.info("payment processed", order_id="ord_789")
+
+    record = json.loads(stream.getvalue().strip())
+    assert record["order_id"] == "ord_789"
+    assert record["trace_id"] == "abc-123"
