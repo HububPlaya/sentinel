@@ -10,3 +10,9 @@ requires-python = ">=3.11"
 
 [tool.setuptools.packages.find]
 include = ["platform_core*"]
+
+[tool.pytest.ini_options]
+addopts = "--cov=platform_core --cov-report=term-missing --cov-fail-under=90"
+
+[tool.coverage.run]
+branch = true
