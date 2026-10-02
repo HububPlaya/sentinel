@@ -24,3 +24,14 @@ def test_auto_injects_trace_id_from_active_request_context():
 
     record = json.loads(stream.getvalue().strip())
     assert record["trace_id"] == "abc-123"
+
+
+def test_invalid_severity_is_rejected():
+    bind_context(trace_id="abc-123", app_id="snack-recommender", team="platform-eng", environment="staging")
+    stream = io.StringIO()
+    logger = PlatformLogger(stream=stream)
+
+    with pytest.raises(ValueError):
+        logger.log("oops", "something happened")
+
+    assert stream.getvalue() == ""
