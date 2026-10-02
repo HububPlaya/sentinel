@@ -1,3 +1,7 @@
+import json
+import sys
+from typing import IO
+
 from .context import get_context
 
 REQUIRED_FIELDS = ("trace_id", "app_id", "team", "environment", "severity")
@@ -9,6 +13,9 @@ class MissingRequiredFieldError(RuntimeError):
 
 
 class PlatformLogger:
+    def __init__(self, stream: "IO[str] | None" = None):
+        self._stream = stream if stream is not None else sys.stdout
+
     def log(self, severity, message: str, **fields) -> None:
         context = get_context() or {}
         record = {
@@ -24,6 +31,9 @@ class PlatformLogger:
             raise MissingRequiredFieldError(
                 f"Cannot emit log: missing required field(s) {missing}."
             )
+
+        record["message"] = message
+        self._stream.write(json.dumps(record) + "\n")
 
     def info(self, message: str, **fields) -> None:
         self.log("info", message, **fields)
