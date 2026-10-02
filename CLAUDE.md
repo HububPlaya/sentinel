@@ -1,8 +1,8 @@
 # CLAUDE.md
 
 Project-specific conventions for Claude Code sessions working in this repo. See also the global
-`design-initiative`, `write-story`, `sprint-plan`, and `tdd-commit-cycle` skills for the
-project-agnostic planning/implementation methodology this repo follows.
+`design-initiative`, `write-story`, `sprint-plan`, `tdd-commit-cycle`, and `scaffold-project`
+skills for the project-agnostic planning/implementation methodology this repo follows.
 
 ## Branch naming
 
@@ -29,3 +29,11 @@ pass it, then commit. See the `tdd-commit-cycle` skill for the full method.
 Commit granularity: scaffolding (new package layout, config, empty files) is its own commit,
 separate from behavior. Each TDD cycle (one test + the minimal code that makes it pass) is one
 commit, not batched with other cycles.
+
+## Test coverage
+
+New Python sub-projects (`platform_core`, and any future ones) enforce a minimum **90%** test
+coverage via `pytest-cov`, wired into `pyproject.toml` so a plain `pytest` run fails below it --
+not just a documented target. 90% was offered as a default suggestion (see `scaffold-project`
+skill) and accepted as-is for `platform_core`; it was not independently re-derived for that
+project, so revisit it if it ever causes real friction rather than treating it as fixed.
