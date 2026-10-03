@@ -11,3 +11,14 @@ def test_outbound_call_attaches_the_active_trace_header(requests_mock):
 
     sent_headers = requests_mock.request_history[0].headers
     assert sent_headers["X-Trace-Id"] == "t-1"
+
+
+def test_no_active_context_does_not_force_a_trace_header(requests_mock):
+    clear_context()
+    requests_mock.get("http://downstream.example/ping", json={"ok": True})
+
+    session = TracedSession()
+    response = session.get("http://downstream.example/ping")
+
+    assert response.status_code == 200
+    assert "X-Trace-Id" not in requests_mock.request_history[0].headers
