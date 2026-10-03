@@ -54,3 +54,24 @@ def test_context_does_not_leak_across_sequential_requests(capsys):
     }
 
     assert request_a_trace_ids.isdisjoint(request_b_trace_ids)
+
+
+def test_error_paths_still_produce_a_structured_log(capsys):
+    app = create_app(TestConfig)
+    # TESTING=True defaults PROPAGATE_EXCEPTIONS on, which bypasses error handlers for
+    # debugging convenience. Production doesn't propagate, so this test opts back out
+    # to exercise the real error-handling path.
+    app.config["PROPAGATE_EXCEPTIONS"] = False
+
+    @app.get("/__boom")
+    def boom():
+        raise RuntimeError("boom")
+
+    client = app.test_client()
+    client.get("/__boom")
+
+    log_lines = [line for line in capsys.readouterr().out.strip().splitlines() if line]
+    records = [json.loads(line) for line in log_lines]
+    assert any(record["severity"] == "error" for record in records), (
+        f"expected a structured error-severity log, got: {records}"
+    )

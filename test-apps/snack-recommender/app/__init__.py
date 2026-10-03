@@ -43,6 +43,11 @@ def create_app(config_object=Config):
         logger.info("health check completed")
         return {"status": "ok"}, 200
 
+    @app.errorhandler(Exception)
+    def _log_unhandled_exception(error):
+        logger.error("unhandled exception", error_type=type(error).__name__)
+        return {"error": "internal server error"}, 500
+
     @app.cli.command("seed-db")
     def seed_db_command():
         """Seeds the snacks table if empty. Separate, deliberate, one-time action --
