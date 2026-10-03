@@ -62,6 +62,23 @@ logger.info("payment processed", order_id="ord_789", amount=42.50)
 #     "severity": "info", "message": "payment processed", "order_id": "ord_789", "amount": 42.5}
 ```
 
+### 3. Propagate trace context through outbound HTTP calls
+
+```python
+from platform_core.telemetry.http import TracedSession
+
+session = TracedSession()
+session.get("https://downstream.example/api/thing")
+```
+
+`TracedSession` is a drop-in `requests.Session` subclass -- use it exactly like `requests.Session`
+for any outbound call. If there's an active context (see step 1), it attaches the current
+trace_id as an `X-Trace-Id` header automatically; with no active context, it behaves like a plain
+`Session` and doesn't force a header.
+
+Not yet covered: propagation into a Lambda invocation (no Lambda app exists on the platform yet
+to build or test one against).
+
 ## Required environment/config per consuming app
 
 A consuming app needs to supply, per its own config mechanism:
