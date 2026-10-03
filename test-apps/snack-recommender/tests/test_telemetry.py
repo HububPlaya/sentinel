@@ -37,3 +37,20 @@ def test_one_trace_id_persists_across_multiple_log_calls_in_one_request(capsys):
     records = [json.loads(line) for line in log_lines]
     trace_ids = {record["trace_id"] for record in records}
     assert len(trace_ids) == 1, f"expected one shared trace_id, got {trace_ids}"
+
+
+def test_context_does_not_leak_across_sequential_requests(capsys):
+    app = create_app(TestConfig)
+    client = app.test_client()
+
+    client.get("/health")
+    request_a_trace_ids = {
+        json.loads(line)["trace_id"] for line in capsys.readouterr().out.strip().splitlines() if line
+    }
+
+    client.get("/health")
+    request_b_trace_ids = {
+        json.loads(line)["trace_id"] for line in capsys.readouterr().out.strip().splitlines() if line
+    }
+
+    assert request_a_trace_ids.isdisjoint(request_b_trace_ids)
