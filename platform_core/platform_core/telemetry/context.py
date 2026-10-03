@@ -22,6 +22,12 @@ def start_span(name: str):
     return _tracer.start_as_current_span(name)
 
 
+def reset() -> None:
+    global _resource_attributes, _tracer
+    _resource_attributes = {}
+    _tracer = TracerProvider().get_tracer("platform_core")
+
+
 def current_trace_id() -> "str | None":
     span_context = trace.get_current_span().get_span_context()
     if not span_context.is_valid:
