@@ -7,6 +7,9 @@ name = "platform-core"
 version = "0.1.0"
 description = "Shared platform capabilities (telemetry, and more as they land) for every app onboarded to the platform."
 requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.31",
+]
 
 [tool.setuptools.packages.find]
 include = ["platform_core*"]
