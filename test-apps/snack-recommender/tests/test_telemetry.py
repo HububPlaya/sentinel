@@ -75,3 +75,14 @@ def test_error_paths_still_produce_a_structured_log(capsys):
     assert any(record["severity"] == "error" for record in records), (
         f"expected a structured error-severity log, got: {records}"
     )
+
+
+def test_logs_go_to_stdout_not_stderr(capsys):
+    app = create_app(TestConfig)
+    client = app.test_client()
+
+    client.get("/health")
+
+    captured = capsys.readouterr()
+    assert captured.out.strip(), "expected log output on stdout"
+    assert captured.err == "", f"expected nothing on stderr, got: {captured.err!r}"
