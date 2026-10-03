@@ -37,6 +37,21 @@ def test_invalid_severity_is_rejected():
     assert stream.getvalue() == ""
 
 
+@pytest.mark.parametrize(
+    "method_name,expected_severity",
+    [("debug", "debug"), ("warn", "warn"), ("error", "error"), ("critical", "critical")],
+)
+def test_remaining_convenience_methods_map_to_their_severity(method_name, expected_severity):
+    bind_context(trace_id="abc-123", app_id="snack-recommender", team="platform-eng", environment="staging")
+    stream = io.StringIO()
+    logger = PlatformLogger(stream=stream)
+
+    getattr(logger, method_name)("something happened")
+
+    record = json.loads(stream.getvalue().strip())
+    assert record["severity"] == expected_severity
+
+
 def test_custom_fields_extend_the_schema():
     bind_context(trace_id="abc-123", app_id="snack-recommender", team="platform-eng", environment="staging")
     stream = io.StringIO()

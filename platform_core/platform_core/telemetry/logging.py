@@ -39,5 +39,17 @@ class PlatformLogger:
         record.update(fields)
         self._stream.write(json.dumps(record) + "\n")
 
+    def debug(self, message: str, **fields) -> None:
+        self.log("debug", message, **fields)
+
     def info(self, message: str, **fields) -> None:
         self.log("info", message, **fields)
+
+    def warn(self, message: str, **fields) -> None:
+        self.log("warn", message, **fields)
+
+    def error(self, message: str, **fields) -> None:
+        self.log("error", message, **fields)
+
+    def critical(self, message: str, **fields) -> None:
+        self.log("critical", message, **fields)
