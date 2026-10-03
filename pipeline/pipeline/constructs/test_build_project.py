@@ -28,8 +28,16 @@ class TestBuildProject(Construct):
                     },
                     "build": {
                         "commands": [
+                            # platform_core has no dedicated pipeline/target of its own yet,
+                            # so its suite (with its own --cov-fail-under gate) runs here,
+                            # since this target depends on it. Revisit if/when platform_core
+                            # gets a real target -- this will otherwise re-run once per
+                            # snack-recommender environment stage.
+                            "cd $CODEBUILD_SRC_DIR/platform_core",
+                            "pip install -r requirements-dev.txt",
+                            "python -m pytest",
                             f"cd $CODEBUILD_SRC_DIR/{target.source_path}",
-                            "echo 'No automated tests yet — placeholder build stage'",
+                            "python -m pytest",
                         ],
                     },
                 },
