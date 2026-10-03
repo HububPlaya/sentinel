@@ -1,0 +1,66 @@
+name: PR review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  commenter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prompt: |
+            Review this pull request thoroughly against this repo's own
+            CLAUDE.md conventions (coverage threshold, commit/branch
+            conventions, TDD discipline) and the write-story/tdd-commit-cycle
+            skills under .claude/skills/. Post specific, concrete findings as
+            inline and summary comments. This is feedback only -- do not
+            submit a formal approve/request-changes review; a separate job
+            handles that.
+
+  approver:
+    runs-on: ubuntu-latest
+    # TEMPORARY: starts in comment-only mode while the gh-auth/permissions
+    # plumbing for a real review submission is being validated live. Do not
+    # wire this into required branch-protection approvals until confirmed
+    # working against a real PR.
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Load approval-gate skill
+        id: skill
+        run: |
+          {
+            echo "SKILL<<EOF"
+            cat .claude/skills/pr-approval-gate/SKILL.md
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.APPROVER_PAT }}
+          claude_args: --allowedTools "Bash(gh pr review:*)"
+          prompt: |
+            Follow the instructions below exactly. For this initial trial
+            run, regardless of what the skill says, end by submitting a
+            `gh pr review <number> --comment -b "..."` ONLY -- do not use
+            --approve or --request-changes yet, even if the skill's rubric
+            would otherwise call for it. State in the comment body what the
+            real verdict would have been, so we can confirm the rubric
+            reasoning is sound before letting it submit that verdict for
+            real.
+
+            ---
+
+            ${{ steps.skill.outputs.SKILL }}
