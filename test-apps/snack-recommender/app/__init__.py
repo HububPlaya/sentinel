@@ -40,6 +40,7 @@ def create_app(config_object=Config):
 
     @app.get("/health")
     def health():
+        logger.info("health check completed")
         return {"status": "ok"}, 200
 
     @app.cli.command("seed-db")
