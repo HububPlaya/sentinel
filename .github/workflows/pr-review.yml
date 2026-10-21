@@ -10,57 +10,112 @@ permissions:
   issues: write
 
 jobs:
-  commenter:
+  test-reviewer:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - uses: anthropics/claude-code-action@v1
-        with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          prompt: |
-            Review this pull request thoroughly against this repo's own
-            CLAUDE.md conventions (coverage threshold, commit/branch
-            conventions, TDD discipline) and the write-story/tdd-commit-cycle
-            skills under .claude/skills/. Post specific, concrete findings as
-            inline and summary comments. This is feedback only -- do not
-            submit a formal approve/request-changes review; a separate job
-            handles that.
-
-  approver:
-    runs-on: ubuntu-latest
-    # TEMPORARY: starts in comment-only mode while the gh-auth/permissions
-    # plumbing for a real review submission is being validated live. Do not
-    # wire this into required branch-protection approvals until confirmed
-    # working against a real PR.
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Load approval-gate skill
+      - name: Load skill
         id: skill
         run: |
           {
             echo "SKILL<<EOF"
-            cat .claude/skills/pr-approval-gate/SKILL.md
+            cat .claude/skills/pr-review-tests/SKILL.md
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
 
       - uses: anthropics/claude-code-action@v1
+        env:
+          VERDICT_FILE: ${{ runner.temp }}/verdict.txt
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          github_token: ${{ secrets.APPROVER_PAT }}
-          claude_args: --allowedTools "Bash(gh pr review:*)"
+          claude_args: --allowedTools "Bash"
           prompt: |
-            Follow the instructions below exactly. For this initial trial
-            run, regardless of what the skill says, end by submitting a
-            `gh pr review <number> --comment -b "..."` ONLY -- do not use
-            --approve or --request-changes yet, even if the skill's rubric
-            would otherwise call for it. State in the comment body what the
-            real verdict would have been, so we can confirm the rubric
-            reasoning is sound before letting it submit that verdict for
-            real.
-
-            ---
-
             ${{ steps.skill.outputs.SKILL }}
+
+      - name: Gate on verdict
+        run: |
+          verdict="$(cat "${{ runner.temp }}/verdict.txt" 2>/dev/null || echo MISSING)"
+          echo "verdict: $verdict"
+          [ "$verdict" = "PASS" ]
+
+  requirements-reviewer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Load skill
+        id: skill
+        run: |
+          {
+            echo "SKILL<<EOF"
+            cat .claude/skills/pr-review-requirements/SKILL.md
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - uses: anthropics/claude-code-action@v1
+        env:
+          VERDICT_FILE: ${{ runner.temp }}/verdict.txt
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_args: --allowedTools "Bash"
+          prompt: |
+            ${{ steps.skill.outputs.SKILL }}
+
+      - name: Gate on verdict
+        run: |
+          verdict="$(cat "${{ runner.temp }}/verdict.txt" 2>/dev/null || echo MISSING)"
+          echo "verdict: $verdict"
+          [ "$verdict" = "PASS" ]
+
+  code-reviewer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Load skill
+        id: skill
+        run: |
+          {
+            echo "SKILL<<EOF"
+            cat .claude/skills/pr-review-code/SKILL.md
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - uses: anthropics/claude-code-action@v1
+        env:
+          VERDICT_FILE: ${{ runner.temp }}/verdict.txt
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_args: --allowedTools "Bash"
+          prompt: |
+            ${{ steps.skill.outputs.SKILL }}
+
+      - name: Gate on verdict
+        run: |
+          verdict="$(cat "${{ runner.temp }}/verdict.txt" 2>/dev/null || echo MISSING)"
+          echo "verdict: $verdict"
+          [ "$verdict" = "PASS" ]
+
+  notify-ready-to-merge:
+    runs-on: ubuntu-latest
+    needs: [test-reviewer, requirements-reviewer, code-reviewer]
+    # needs: defaults to requiring all three to succeed -- this job is
+    # skipped entirely if any one of them failed, so no extra `if:` needed.
+    steps:
+      - name: Email that the PR is ready to merge
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          from: sentinel CI
+          to: ${{ secrets.MAIL_USERNAME }}
+          subject: "PR #${{ github.event.pull_request.number }} -- all reviews passed, ready to merge"
+          body: |
+            ${{ github.event.pull_request.title }}
+            ${{ github.event.pull_request.html_url }}
+
+            Test, requirements, and code reviewers all passed. Nothing has
+            been merged -- this is a notification only.
