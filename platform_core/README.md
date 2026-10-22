@@ -197,6 +197,35 @@ ref = reference_id(current_trace_id())  # first 8 hex chars, deterministic
 See `test-apps/snack-recommender/app/__init__.py`'s error handler for the real pattern --
 `reference_id` in the response body, the full `trace_id` never exposed there.
 
+### 8. Propagate traces across an async hop (no HTTP header to attach to)
+
+A queue (SQS, SNS, Kafka) has no header -- the trace context has to travel as a plain
+attribute on the message instead. This is transport-agnostic: the carrier is just a dict;
+wrapping it into a real SQS/SNS/Kafka attribute format is each transport's own concern, out
+of scope here.
+
+Producer side:
+
+```python
+from platform_core.telemetry.messaging import inject
+
+carrier = {}
+inject(carrier)  # carrier now has a traceparent key -- attach it to your message's attributes
+```
+
+Consumer side:
+
+```python
+from platform_core.telemetry.messaging import extract_and_attach
+
+with extract_and_attach(carrier) as span:
+    ...  # this span shares the producer's trace_id; an empty/missing carrier just starts a fresh one
+```
+
+Built directly on OTel's own `TraceContextTextMapPropagator` -- verified against a plain dict
+carrier before adopting it rather than hand-writing inject/extract, same build-vs-adopt check
+applied to the HTTP instrumentation above.
+
 ## Required environment/config per consuming app
 
 A consuming app needs to supply, per its own config mechanism:
