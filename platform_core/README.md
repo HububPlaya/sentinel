@@ -95,6 +95,21 @@ readable stdout output, and the "already have a backend" case gets real OTLP spa
 already knows how to render. An unrecognized `OTEL_EXPORTER` value raises immediately at startup
 rather than silently falling back to one or the other.
 
+### 5. Propagate traces across outbound HTTP calls
+
+```python
+from platform_core.telemetry.http import instrument
+
+instrument()  # once at startup, alongside configure()
+```
+
+Turns on `opentelemetry-instrumentation-requests`, which attaches the active span's context as a
+real W3C `traceparent` header to every outbound call made via `requests`, so a trace started in
+one service is readable by any OTel-aware consumer it calls into -- not just our own code. No
+header is forced when there's no active span. Adopted directly rather than hand-writing a
+`requests.Session` subclass -- it already covers exactly this behavior; see the journal entry for
+how that was verified before committing to it.
+
 ## Required environment/config per consuming app
 
 A consuming app needs to supply, per its own config mechanism:
