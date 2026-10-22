@@ -249,3 +249,30 @@ pytest
 
 Coverage is enforced at a minimum of 90% (`--cov-fail-under=90` in `pyproject.toml`); a plain
 `pytest` run fails below that automatically.
+
+## How a consuming app bundles this dependency
+
+`platform_core` is published as a real versioned package (`platform-core==<version>`, name
+normalized from this directory's `platform_core`) to a private AWS CodeArtifact repository
+(`sentinel-platform` domain, `platform-packages` repository -- see
+`infra/infra/codeartifact/codeartifact_stack.py`), **not** vendored or installed via a
+monorepo-relative editable path. That editable-path approach (`-e ../../platform_core`) is what
+caused #346: it resolves fine in CI/local, where the full monorepo is checked out, but a real
+deployed app's bundle only ever contains that app's own folder, so there's nothing above it to
+resolve against.
+
+A consuming app:
+- Pins the exact version it wants in its own `requirements.txt`, e.g. `platform_core==0.1.0`.
+- On Elastic Beanstalk, needs a `.platform/hooks/prebuild/` script that logs into CodeArtifact for
+  pip before EB's own `pip install -r requirements.txt` runs -- see
+  `test-apps/snack-recommender/.platform/hooks/prebuild/01_codeartifact_login.sh` for the
+  reference implementation. Its EB instance role needs `codeartifact:GetAuthorizationToken`,
+  `codeartifact:GetRepositoryEndpoint`, `codeartifact:ReadFromRepository`, and
+  `sts:GetServiceBearerToken` (scoped to `sts:AWSServiceName=codeartifact.amazonaws.com`) on the
+  shared repository.
+
+Publishing is automatic but versioning is deliberately manual: the pipeline (see
+`pipeline/pipeline/constructs/test_build_project.py`) builds and publishes whatever version is
+currently declared in this package's own `pyproject.toml`, skipping the publish if that version
+already exists. Bumping the version here -- and updating a consuming app's pin to match -- is the
+actual release action; nothing auto-increments it.
