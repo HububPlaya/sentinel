@@ -1,3 +1,4 @@
+import pytest
 from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
 from opentelemetry.sdk.trace.export import BatchSpanProcessor, ConsoleSpanExporter, SimpleSpanProcessor
 
@@ -22,3 +23,10 @@ def test_otlp_exporter_is_selected_and_configured_from_env(monkeypatch):
     assert isinstance(processor, BatchSpanProcessor)
     assert isinstance(processor.span_exporter, OTLPSpanExporter)
     assert processor.span_exporter._endpoint == "collector:4317"
+
+
+def test_invalid_exporter_value_fails_loudly(monkeypatch):
+    monkeypatch.setenv("OTEL_EXPORTER", "nonsense")
+
+    with pytest.raises(ValueError, match="nonsense"):
+        build_span_processor()
