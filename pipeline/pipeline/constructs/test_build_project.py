@@ -88,11 +88,22 @@ class TestBuildProject(Construct):
             }),
         )
 
+        # CodeArtifact IAM actions split by resource type: GetAuthorizationToken is domain-level,
+        # GetRepositoryEndpoint is repository-level, and the per-package read/publish actions
+        # below need a package-level ARN -- a repository or domain ARN won't satisfy them even
+        # though it reads like it should.
         self.project.add_to_role_policy(
             self._codeartifact_policy_statement(
-                actions=["codeartifact:GetAuthorizationToken", "codeartifact:GetRepositoryEndpoint"],
+                actions=["codeartifact:GetAuthorizationToken"],
                 account=account, region=region,
                 resource_segment=f"domain/{codeartifact_domain}",
+            )
+        )
+        self.project.add_to_role_policy(
+            self._codeartifact_policy_statement(
+                actions=["codeartifact:GetRepositoryEndpoint"],
+                account=account, region=region,
+                resource_segment=f"repository/{codeartifact_domain}/{codeartifact_repository}",
             )
         )
         self.project.add_to_role_policy(
@@ -103,7 +114,7 @@ class TestBuildProject(Construct):
                     "codeartifact:PutPackageMetadata",
                 ],
                 account=account, region=region,
-                resource_segment=f"repository/{codeartifact_domain}/{codeartifact_repository}",
+                resource_segment=f"package/{codeartifact_domain}/{codeartifact_repository}/*/*/*",
             )
         )
         self.project.add_to_role_policy(

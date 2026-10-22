@@ -112,16 +112,29 @@ environment_stack.instance_role.role.add_to_policy(
 
 # Lets the instance resolve private packages (e.g. platform_core) from CodeArtifact at deploy
 # time via its own instance-role credentials -- see .platform/hooks/prebuild/ in the app bundle.
+# CodeArtifact IAM actions split by resource type: GetAuthorizationToken is domain-level,
+# GetRepositoryEndpoint is repository-level, and the per-package read/publish actions below need
+# a package-level ARN -- a repository or domain ARN won't satisfy them even though it reads like
+# it should.
 environment_stack.instance_role.role.add_to_policy(
     iam.PolicyStatement(
-        actions=["codeartifact:GetAuthorizationToken", "codeartifact:GetRepositoryEndpoint"],
+        actions=["codeartifact:GetAuthorizationToken"],
         resources=[codeartifact_stack.domain.attr_arn],
     )
 )
 environment_stack.instance_role.role.add_to_policy(
     iam.PolicyStatement(
-        actions=["codeartifact:ReadFromRepository"],
+        actions=["codeartifact:GetRepositoryEndpoint"],
         resources=[codeartifact_stack.repository_arn],
+    )
+)
+environment_stack.instance_role.role.add_to_policy(
+    iam.PolicyStatement(
+        actions=["codeartifact:ReadFromRepository"],
+        resources=[
+            f"arn:aws:codeartifact:{env.region}:{env.account}:package/"
+            f"{codeartifact_stack.domain_name}/{codeartifact_stack.repository_name}/*/*/*"
+        ],
     )
 )
 environment_stack.instance_role.role.add_to_policy(
