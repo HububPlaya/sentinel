@@ -1,3 +1,6 @@
+import contextvars
+from contextlib import contextmanager
+
 from opentelemetry import trace
 from opentelemetry.sdk.trace import TracerProvider
 
@@ -6,6 +9,9 @@ from .resource import build_resource
 
 _resource_attributes: dict = {}
 _tracer = TracerProvider().get_tracer("platform_core")
+_origin_var: "contextvars.ContextVar[str]" = contextvars.ContextVar(
+    "platform_core_telemetry_origin", default="internal"
+)
 
 
 def configure(*, app_id: str, team: str, environment: str) -> None:
@@ -21,8 +27,18 @@ def current_resource_attributes() -> dict:
     return dict(_resource_attributes)
 
 
-def start_span(name: str):
-    return _tracer.start_as_current_span(name)
+@contextmanager
+def start_span(name: str, *, origin: str = "internal"):
+    token = _origin_var.set(origin)
+    try:
+        with _tracer.start_as_current_span(name) as span:
+            yield span
+    finally:
+        _origin_var.reset(token)
+
+
+def current_origin() -> str:
+    return _origin_var.get()
 
 
 def reset() -> None:
