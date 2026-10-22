@@ -1,8 +1,6 @@
-import uuid
+from flask import Flask, g
 
-from flask import Flask
-
-from platform_core.telemetry.context import bind_context
+from platform_core.telemetry.context import configure, start_span
 from platform_core.telemetry.logging import PlatformLogger
 
 from .config import Config
@@ -13,20 +11,29 @@ def create_app(config_object=Config):
     app = Flask(__name__)
     app.config.from_object(config_object)
 
+    configure(
+        app_id=app.config["APP_ID"],
+        team=app.config["TEAM"],
+        environment=app.config["ENVIRONMENT"],
+    )
+
     db.init_app(app)
     migrate.init_app(app, db)
 
     logger = PlatformLogger()
 
     @app.before_request
-    def _bind_telemetry_context():
-        bind_context(
-            trace_id=str(uuid.uuid4()),
-            app_id=app.config["APP_ID"],
-            team=app.config["TEAM"],
-            environment=app.config["ENVIRONMENT"],
-        )
+    def _start_request_span():
+        g._telemetry_span_cm = start_span("request")
+        g._telemetry_span_cm.__enter__()
         logger.info("request received")
+
+    @app.teardown_request
+    def _end_request_span(exc=None):
+        span_cm = g.pop("_telemetry_span_cm", None)
+        if span_cm is not None:
+            exc_info = (type(exc), exc, exc.__traceback__) if exc else (None, None, None)
+            span_cm.__exit__(*exc_info)
 
     with app.app_context():
         from . import models  # noqa: F401 -- ensures models are registered before migrations autogenerate

@@ -7,6 +7,10 @@ name = "platform-core"
 version = "0.1.0"
 description = "Shared platform capabilities (telemetry, and more as they land) for every app onboarded to the platform."
 requires-python = ">=3.11"
+dependencies = [
+    "opentelemetry-api>=1.45,<2",
+    "opentelemetry-sdk>=1.45,<2",
+]
 
 [tool.setuptools.packages.find]
 include = ["platform_core*"]
