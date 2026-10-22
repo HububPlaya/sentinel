@@ -141,6 +141,33 @@ header is forced when there's no active span. Adopted directly rather than hand-
 `requests.Session` subclass -- it already covers exactly this behavior; see the journal entry for
 how that was verified before committing to it.
 
+### 6. Observe a call to a storage dependency
+
+```python
+from platform_core.telemetry.spans import instrument_call
+
+rows = instrument_call(
+    resource="rds:snack-recommender-db",
+    operation="select_snacks",
+    call=lambda: Snack.query.all(),
+)
+```
+
+A storage system (a database, a bucket) doesn't participate in trace propagation -- there's
+nothing to hand a `trace_id` to or get one back from. `instrument_call` isn't propagation, it's
+observability of the call itself: one structured entry with `resource`, `operation`,
+`duration_ms`, and `outcome` (`success`/`error`), logged as one more hop in the active trace. The
+wrapped call's own exception still propagates -- this only observes it, never swallows it.
+
+Deliberately records only the resource's own identifier, not who owns it. A caller doesn't
+reliably know who owns a shared resource it merely calls, and asking every call site to declare
+it drifts the moment ownership changes -- resolving *who owns this* is a lookup against this
+platform's resource tagging/inventory at query/display time (see #248), not a field stamped here.
+
+By default, logs via a fresh `ServiceAdapter()` (so it works with no setup against anything
+already using the shared `context` module); pass `logger=` to use a specific adapter instance
+instead (e.g. a `LibraryAdapter`).
+
 ## Required environment/config per consuming app
 
 A consuming app needs to supply, per its own config mechanism:
