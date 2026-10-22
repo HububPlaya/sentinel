@@ -1,6 +1,7 @@
 from opentelemetry import trace
 from opentelemetry.sdk.trace import TracerProvider
 
+from .exporter import build_span_processor
 from .resource import build_resource
 
 _resource_attributes: dict = {}
@@ -11,7 +12,9 @@ def configure(*, app_id: str, team: str, environment: str) -> None:
     global _resource_attributes, _tracer
     _resource_attributes = {"app_id": app_id, "team": team, "environment": environment}
     resource = build_resource(app_id=app_id, team=team, environment=environment)
-    _tracer = TracerProvider(resource=resource).get_tracer("platform_core")
+    provider = TracerProvider(resource=resource)
+    provider.add_span_processor(build_span_processor())
+    _tracer = provider.get_tracer("platform_core")
 
 
 def current_resource_attributes() -> dict:
