@@ -63,18 +63,23 @@ class TestBuildProject(Construct):
                             "cd $CODEBUILD_SRC_DIR/platform_core",
                             "pip install -r requirements-dev.txt",
                             "python -m pytest",
-                            # Publish whatever version platform_core/pyproject.toml currently
-                            # declares -- idempotent (skipped if already published), so a version
-                            # bump there is the deliberate signal a new release is ready, not a
-                            # separate manual publish step.
-                            "PLATFORM_CORE_VERSION=$(python -c \"import tomllib; "
-                            "print(tomllib.load(open('pyproject.toml','rb'))['project']['version'])\")",
                             "pip install build twine",
                             "python -m build",
                             codeartifact_twine_login,
-                            f'ALREADY_PUBLISHED=$({list_published_versions} 2>/dev/null || echo 0)',
-                            'if [ "$ALREADY_PUBLISHED" = "0" ]; then twine upload --repository codeartifact dist/*; '
-                            'else echo "platform_core==$PLATFORM_CORE_VERSION already published, skipping"; fi',
+                            # Publish whatever version platform_core/pyproject.toml currently
+                            # declares -- idempotent (skipped if already published), so a version
+                            # bump there is the deliberate signal a new release is ready, not a
+                            # separate manual publish step. Chained with && into one command
+                            # rather than split across separate buildspec commands -- CodeBuild
+                            # doesn't reliably share shell variable state across list entries the
+                            # way it does cwd, which silently broke this idempotency check once.
+                            (
+                                "PLATFORM_CORE_VERSION=$(python -c \"import tomllib; "
+                                "print(tomllib.load(open('pyproject.toml','rb'))['project']['version'])\") && "
+                                f"ALREADY_PUBLISHED=$({list_published_versions} 2>/dev/null || echo 0) && "
+                                'if [ "$ALREADY_PUBLISHED" = "0" ]; then twine upload --repository codeartifact dist/*; '
+                                'else echo "platform_core==$PLATFORM_CORE_VERSION already published, skipping"; fi'
+                            ),
                             f"cd $CODEBUILD_SRC_DIR/{target.source_path}",
                             "pip install -r requirements-dev.txt",
                             "python -m pytest",
