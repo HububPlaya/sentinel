@@ -2,7 +2,7 @@ import json
 import sys
 from typing import IO
 
-from .context import current_resource_attributes, current_trace_id
+from .context import current_origin, current_resource_attributes, current_trace_id
 from .severity import Severity
 
 REQUIRED_FIELDS = ("trace_id", "app_id", "team", "environment", "severity")
@@ -25,6 +25,7 @@ def build_record(severity, message: str, resource_attrs: dict, trace_id: "str | 
         "environment": fields.pop("environment", None) or resource_attrs.get("environment"),
         "severity": severity.value,
         "severity_number": severity.to_otel().value,
+        "origin": fields.pop("origin", None) or current_origin(),
     }
 
     missing = [field for field in REQUIRED_FIELDS if not record.get(field)]

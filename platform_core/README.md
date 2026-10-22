@@ -168,6 +168,35 @@ By default, logs via a fresh `ServiceAdapter()` (so it works with no setup again
 already using the shared `context` module); pass `logger=` to use a specific adapter instance
 instead (e.g. a `LibraryAdapter`).
 
+### 7. Classify trace origin, and give customers a safe reference id
+
+Not every trace starts from a real customer request -- a cron job or a deploy step has no
+customer anywhere in its ancestry. `start_span` takes an `origin`, defaulting to `"internal"`
+(the safer default: don't assume customer-facing unless explicitly declared):
+
+```python
+from platform_core.telemetry.context import start_span
+
+with start_span("request", origin="customer"):
+    ...  # every log emitted in here carries origin="customer"
+```
+
+Every structured log record carries the active span's `origin`. In a Flask app, pass
+`origin="customer"` in `before_request` -- a real inbound HTTP request always starts from a
+customer, unlike an internal/scheduled job.
+
+When you need to hand a customer something traceable back to a real trace (an error response,
+a support ticket), don't expose the full internal `trace_id` -- derive a short reference instead:
+
+```python
+from platform_core.telemetry.context import current_trace_id, reference_id
+
+ref = reference_id(current_trace_id())  # first 8 hex chars, deterministic
+```
+
+See `test-apps/snack-recommender/app/__init__.py`'s error handler for the real pattern --
+`reference_id` in the response body, the full `trace_id` never exposed there.
+
 ## Required environment/config per consuming app
 
 A consuming app needs to supply, per its own config mechanism:
