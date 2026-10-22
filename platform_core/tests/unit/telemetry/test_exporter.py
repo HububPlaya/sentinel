@@ -30,3 +30,13 @@ def test_invalid_exporter_value_fails_loudly(monkeypatch):
 
     with pytest.raises(ValueError, match="nonsense"):
         build_span_processor()
+
+
+def test_force_synchronous_never_returns_a_batch_processor_even_for_otlp(monkeypatch):
+    monkeypatch.setenv("OTEL_EXPORTER", "otlp")
+    monkeypatch.setenv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://collector:4317")
+
+    processor = build_span_processor(force_synchronous=True)
+
+    assert isinstance(processor, SimpleSpanProcessor)
+    assert isinstance(processor.span_exporter, OTLPSpanExporter)
