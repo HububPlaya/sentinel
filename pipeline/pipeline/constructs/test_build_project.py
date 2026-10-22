@@ -88,10 +88,12 @@ class TestBuildProject(Construct):
             }),
         )
 
-        # CodeArtifact IAM actions split by resource type: GetAuthorizationToken is domain-level,
-        # GetRepositoryEndpoint is repository-level, and the per-package read/publish actions
-        # below need a package-level ARN -- a repository or domain ARN won't satisfy them even
-        # though it reads like it should.
+        # CodeArtifact IAM actions split by resource type -- confirmed against the real API via
+        # iam:SimulatePrincipalPolicy, not just docs, since GetRepositoryEndpoint/ReadFromRepository
+        # vs. PublishPackageVersion/PutPackageMetadata turned out to split the opposite way from
+        # first assumption (see #346's journal entry): GetAuthorizationToken is domain-level;
+        # GetRepositoryEndpoint and ReadFromRepository are repository-level; only the actual
+        # publish actions are package-level.
         self.project.add_to_role_policy(
             self._codeartifact_policy_statement(
                 actions=["codeartifact:GetAuthorizationToken"],
@@ -101,18 +103,14 @@ class TestBuildProject(Construct):
         )
         self.project.add_to_role_policy(
             self._codeartifact_policy_statement(
-                actions=["codeartifact:GetRepositoryEndpoint"],
+                actions=["codeartifact:GetRepositoryEndpoint", "codeartifact:ReadFromRepository"],
                 account=account, region=region,
                 resource_segment=f"repository/{codeartifact_domain}/{codeartifact_repository}",
             )
         )
         self.project.add_to_role_policy(
             self._codeartifact_policy_statement(
-                actions=[
-                    "codeartifact:ReadFromRepository",
-                    "codeartifact:PublishPackageVersion",
-                    "codeartifact:PutPackageMetadata",
-                ],
+                actions=["codeartifact:PublishPackageVersion", "codeartifact:PutPackageMetadata"],
                 account=account, region=region,
                 resource_segment=f"package/{codeartifact_domain}/{codeartifact_repository}/*/*/*",
             )

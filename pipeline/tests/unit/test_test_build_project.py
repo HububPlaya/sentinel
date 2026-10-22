@@ -63,9 +63,11 @@ def test_grants_codeartifact_read_and_publish_permissions():
 
 
 def test_codeartifact_grants_use_correct_resource_type_per_action():
-    # GetAuthorizationToken is domain-level, GetRepositoryEndpoint is repository-level, and the
-    # per-package actions need a package-level ARN -- mixing these up is an exit-254 CodeBuild
-    # failure at `aws codeartifact login`, not a synth-time error, so this is worth pinning down.
+    # Confirmed against the real API via iam:SimulatePrincipalPolicy, not just docs:
+    # GetAuthorizationToken is domain-level; GetRepositoryEndpoint and ReadFromRepository are
+    # repository-level; only PublishPackageVersion/PutPackageMetadata are package-level. Getting
+    # this wrong is a 403 at the real `pip install` (or an exit-254 at `aws codeartifact login`),
+    # not a synth-time error, so it's worth pinning down with a test.
     template, _ = _build_template()
     [policy] = [
         p for p in template.find_resources("AWS::IAM::Policy").values()
@@ -86,7 +88,7 @@ def test_codeartifact_grants_use_correct_resource_type_per_action():
 
     assert any(":domain/" in r for r in resource_for("codeartifact:GetAuthorizationToken"))
     assert any(":repository/" in r for r in resource_for("codeartifact:GetRepositoryEndpoint"))
-    assert any(":package/" in r for r in resource_for("codeartifact:ReadFromRepository"))
+    assert any(":repository/" in r for r in resource_for("codeartifact:ReadFromRepository"))
     assert any(":package/" in r for r in resource_for("codeartifact:PublishPackageVersion"))
 
 
