@@ -78,6 +78,26 @@ def test_error_paths_still_produce_a_structured_log(capsys):
     )
 
 
+def test_error_response_exposes_reference_id_not_the_full_trace_id(capsys):
+    app = create_app(TestConfig)
+    app.config["PROPAGATE_EXCEPTIONS"] = False
+
+    @app.get("/__boom2")
+    def boom():
+        raise RuntimeError("boom")
+
+    client = app.test_client()
+    response = client.get("/__boom2")
+
+    records = _structured_logs(capsys.readouterr().out)
+    real_trace_id = next(record["trace_id"] for record in records if record["severity"] == "error")
+
+    body = response.get_json()
+    assert "reference_id" in body
+    assert body["reference_id"] == real_trace_id[:8]
+    assert real_trace_id not in json.dumps(body)
+
+
 def test_logs_go_to_stdout_not_stderr(capsys):
     app = create_app(TestConfig)
     client = app.test_client()

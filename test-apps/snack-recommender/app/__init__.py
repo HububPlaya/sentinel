@@ -1,7 +1,7 @@
 from flask import Flask, g
 
 from platform_core.telemetry.adapters.service import ServiceAdapter
-from platform_core.telemetry.context import configure, start_span
+from platform_core.telemetry.context import configure, current_trace_id, reference_id, start_span
 
 from .config import Config
 from .extensions import db, migrate
@@ -24,7 +24,7 @@ def create_app(config_object=Config):
 
     @app.before_request
     def _start_request_span():
-        g._telemetry_span_cm = start_span("request")
+        g._telemetry_span_cm = start_span("request", origin="customer")
         g._telemetry_span_cm.__enter__()
         logger.info("request received")
 
@@ -53,7 +53,9 @@ def create_app(config_object=Config):
     @app.errorhandler(Exception)
     def _log_unhandled_exception(error):
         logger.error("unhandled exception", error_type=type(error).__name__)
-        return {"error": "internal server error"}, 500
+        trace_id = current_trace_id()
+        ref = reference_id(trace_id) if trace_id else None
+        return {"error": "internal server error", "reference_id": ref}, 500
 
     @app.cli.command("seed-db")
     def seed_db_command():
