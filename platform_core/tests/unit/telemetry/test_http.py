@@ -31,3 +31,14 @@ def test_outbound_call_attaches_a_real_traceparent_header():
 
     assert "traceparent" in captured
     assert trace_id in captured["traceparent"]
+
+
+def test_no_active_span_means_no_traceparent_header_is_forced():
+    instrument()
+    captured, fake_send = _capture_sent_headers()
+
+    with patch.object(requests.adapters.HTTPAdapter, "send", fake_send):
+        response = requests.get("http://example.com")
+
+    assert response.status_code == 200
+    assert "traceparent" not in captured
