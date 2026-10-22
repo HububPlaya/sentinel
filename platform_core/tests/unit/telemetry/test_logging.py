@@ -59,6 +59,18 @@ def test_remaining_convenience_methods_map_to_their_severity(method_name, expect
     assert record["severity"] == expected_severity
 
 
+def test_log_record_carries_the_active_spans_origin():
+    configure(app_id="snack-recommender", team="platform-eng", environment="staging")
+    stream = io.StringIO()
+    logger = PlatformLogger(stream=stream)
+
+    with start_span("request", origin="customer"):
+        logger.info("payment processed")
+
+    record = json.loads(stream.getvalue().strip())
+    assert record["origin"] == "customer"
+
+
 def test_custom_fields_extend_the_schema():
     configure(app_id="snack-recommender", team="platform-eng", environment="staging")
     stream = io.StringIO()
