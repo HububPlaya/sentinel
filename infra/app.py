@@ -5,6 +5,7 @@ import aws_cdk as cdk
 from aws_cdk import aws_ec2 as ec2
 from aws_cdk import aws_iam as iam
 
+from infra.codeartifact.codeartifact_stack import CodeArtifactStack
 from infra.elastic_beanstalk.application_stack import ApplicationStack
 from infra.elastic_beanstalk.network_stack import NetworkStack
 from infra.elastic_beanstalk.environment_stack import EnvironmentStack
@@ -22,6 +23,8 @@ env = cdk.Environment(
 )
 
 application_stack = ApplicationStack(app, "SnackRecommenderApplication", app_name=APP_NAME, env=env)
+
+codeartifact_stack = CodeArtifactStack(app, "PlatformCodeArtifact", env=env)
 
 target_env = app.node.try_get_context("env") or "dev"
 
@@ -46,6 +49,9 @@ app_environment_variables = {
     "DB_NAME": database_stack.database.database_name,
     "DB_SECRET_ARN": database_stack.database.instance.secret.secret_arn,
     "DB_SECRET_REGION": env.region,
+    "CODEARTIFACT_DOMAIN": codeartifact_stack.domain_name,
+    "CODEARTIFACT_DOMAIN_OWNER": env.account,
+    "CODEARTIFACT_REPOSITORY": codeartifact_stack.repository_name,
 }
 if database_stack.read_replica:
     app_environment_variables["DB_READ_HOST"] = database_stack.read_replica.instance.db_instance_endpoint_address
@@ -101,6 +107,30 @@ environment_stack.instance_role.role.add_to_policy(
     iam.PolicyStatement(
         actions=["kms:Decrypt", "kms:DescribeKey"],
         resources=[database_stack.encryption_key.key.key_arn],
+    )
+)
+
+# Lets the instance resolve private packages (e.g. platform_core) from CodeArtifact at deploy
+# time via its own instance-role credentials -- see .platform/hooks/prebuild/ in the app bundle.
+# GetAuthorizationToken is domain-level; GetRepositoryEndpoint and (confirmed against the real
+# API, not just docs -- see #346's journal entry) ReadFromRepository are both repository-level.
+environment_stack.instance_role.role.add_to_policy(
+    iam.PolicyStatement(
+        actions=["codeartifact:GetAuthorizationToken"],
+        resources=[codeartifact_stack.domain.attr_arn],
+    )
+)
+environment_stack.instance_role.role.add_to_policy(
+    iam.PolicyStatement(
+        actions=["codeartifact:GetRepositoryEndpoint", "codeartifact:ReadFromRepository"],
+        resources=[codeartifact_stack.repository_arn],
+    )
+)
+environment_stack.instance_role.role.add_to_policy(
+    iam.PolicyStatement(
+        actions=["sts:GetServiceBearerToken"],
+        resources=["*"],
+        conditions={"StringEquals": {"sts:AWSServiceName": "codeartifact.amazonaws.com"}},
     )
 )
 

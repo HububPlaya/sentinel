@@ -42,6 +42,7 @@ class ResourcePipelineStack(Stack):
             "dev",
             [
                 "SnackRecommenderApplication",
+                "PlatformCodeArtifact",
                 "SnackRecommenderNetwork-dev",
                 "SnackRecommenderDatabase-dev",
                 "SnackRecommenderInfra-dev",
