@@ -51,21 +51,50 @@ see `test-apps/snack-recommender/app/__init__.py` for the real pattern. `context
 the configured resource and tracer (mostly useful for tests, same role the old `clear_context()`
 played).
 
-### 3. Log
+### 3. Log -- pick the adapter that matches how your code runs
+
+A long-lived service and a library with no runtime of its own need mechanically different ways
+to emit telemetry (a library can't run its own background exporter thread). Both produce the
+exact same structured schema underneath.
+
+**Service-mode** -- a long-lived process (a Flask app, a worker), context bound per
+request/task via `configure()`/`start_span()` above:
 
 ```python
-from platform_core.telemetry.logging import PlatformLogger
+from platform_core.telemetry.adapters.service import ServiceAdapter
 
-logger = PlatformLogger()
+logger = ServiceAdapter()
 logger.info("payment processed")
 logger.error("payment failed", order_id="ord_789")
 ```
 
-Available methods: `.debug()`, `.info()`, `.warn()`, `.error()`, `.critical()` -- each maps to
-one of the platform's fixed severities. An undefined severity raises `ValueError` before
-anything is written. By default, output goes to `sys.stdout` (what Elastic Beanstalk/CloudWatch
-actually captures) -- pass `stream=` to `PlatformLogger()` to redirect it (tests do this with a
-`StringIO`).
+This is exactly `PlatformLogger` (importable either way) -- `ServiceAdapter` is just the name
+this story gives it, formalizing what every consuming app already does, not new behavior.
+
+**Library-mode** -- embedded inside someone else's application, with no runtime or background
+thread of its own. Self-contained: it does not touch `context.configure()`'s shared global
+state (so it can't clobber whatever the host application itself has configured), and never
+spawns a background thread even if OTLP export is configured, since `BatchSpanProcessor` always
+starts one:
+
+```python
+from platform_core.telemetry.adapters.library import LibraryAdapter
+
+adapter = LibraryAdapter(app_id="snack-sdk", team="platform-eng", environment="dev")
+
+with adapter.start_span("operation"):
+    adapter.log("info", "event emitted")
+```
+
+Flushing is the host application's own responsibility -- there's no background thread for this
+library to flush on its own.
+
+Available severity methods on `ServiceAdapter`/`PlatformLogger`: `.debug()`, `.info()`, `.warn()`,
+`.error()`, `.critical()` -- each maps to one of the platform's fixed severities (`LibraryAdapter`
+exposes the same severities through `.log(severity, message, **fields)` directly). An undefined
+severity raises `ValueError` before anything is written. By default, output goes to `sys.stdout`
+(what Elastic Beanstalk/CloudWatch actually captures) -- pass `stream=` to redirect it (tests do
+this with a `StringIO`).
 
 Any field not in the required five that doesn't match an explicit argument passes through
 unchanged, so the schema is extendable per call without any change here:
@@ -79,8 +108,10 @@ logger.info("payment processed", order_id="ord_789", amount=42.50)
 ### 4. Where do spans actually go?
 
 Nothing extra to configure if you have no observability backend yet: `configure()` wires up a
-real exporter automatically, defaulting to `OTEL_EXPORTER=log` -- every span prints as structured
-JSON to stdout, same place your logs already go, no new infrastructure to run.
+real exporter automatically, defaulting to `OTEL_EXPORTER=log` -- every span prints as compact,
+single-line structured JSON to stdout (not the OTel SDK's own pretty-printed default, which would
+otherwise corrupt line-based parsing of a stream also carrying your own log records), same place
+your logs already go, no new infrastructure to run.
 
 If a team already has an OTel-compatible backend (Dynatrace, Datadog, Grafana Tempo, Jaeger --
 anything that accepts OTLP), point at it instead:
