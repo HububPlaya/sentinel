@@ -1,7 +1,7 @@
 from flask import Flask, g
 
+from platform_core.telemetry.adapters.service import ServiceAdapter
 from platform_core.telemetry.context import configure, start_span
-from platform_core.telemetry.logging import PlatformLogger
 
 from .config import Config
 from .extensions import db, migrate
@@ -20,7 +20,7 @@ def create_app(config_object=Config):
     db.init_app(app)
     migrate.init_app(app, db)
 
-    logger = PlatformLogger()
+    logger = ServiceAdapter()
 
     @app.before_request
     def _start_request_span():

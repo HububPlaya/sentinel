@@ -8,17 +8,25 @@ class TestConfig(Config):
     TESTING = True
 
 
+def _structured_logs(text):
+    """Stdout now also carries real OTel span-export lines (since #331) --
+    same stream, different schema. Our own structured logs are the only ones
+    with a top-level `severity` key; a span dump has `context`/`kind`/etc.
+    instead, so filter rather than assume every stdout line is one of ours."""
+    records = (json.loads(line) for line in text.strip().splitlines() if line)
+    return [record for record in records if "severity" in record]
+
+
 def test_real_request_emits_structured_log_with_required_fields(capsys):
     app = create_app(TestConfig)
     client = app.test_client()
 
     client.get("/health")
 
-    captured = capsys.readouterr()
-    log_lines = [line for line in captured.out.strip().splitlines() if line]
-    assert log_lines, "expected at least one structured log line for the request"
+    records = _structured_logs(capsys.readouterr().out)
+    assert records, "expected at least one structured log line for the request"
 
-    record = json.loads(log_lines[-1])
+    record = records[-1]
     for field in ("trace_id", "app_id", "team", "environment", "severity"):
         assert field in record
     assert record["app_id"] == "snack-recommender"
@@ -30,11 +38,9 @@ def test_one_trace_id_persists_across_multiple_log_calls_in_one_request(capsys):
 
     client.get("/health")
 
-    captured = capsys.readouterr()
-    log_lines = [line for line in captured.out.strip().splitlines() if line]
-    assert len(log_lines) >= 2, "expected at least two log lines for one /health request"
+    records = _structured_logs(capsys.readouterr().out)
+    assert len(records) >= 2, "expected at least two log lines for one /health request"
 
-    records = [json.loads(line) for line in log_lines]
     trace_ids = {record["trace_id"] for record in records}
     assert len(trace_ids) == 1, f"expected one shared trace_id, got {trace_ids}"
 
@@ -44,14 +50,10 @@ def test_context_does_not_leak_across_sequential_requests(capsys):
     client = app.test_client()
 
     client.get("/health")
-    request_a_trace_ids = {
-        json.loads(line)["trace_id"] for line in capsys.readouterr().out.strip().splitlines() if line
-    }
+    request_a_trace_ids = {record["trace_id"] for record in _structured_logs(capsys.readouterr().out)}
 
     client.get("/health")
-    request_b_trace_ids = {
-        json.loads(line)["trace_id"] for line in capsys.readouterr().out.strip().splitlines() if line
-    }
+    request_b_trace_ids = {record["trace_id"] for record in _structured_logs(capsys.readouterr().out)}
 
     assert request_a_trace_ids.isdisjoint(request_b_trace_ids)
 
@@ -70,8 +72,7 @@ def test_error_paths_still_produce_a_structured_log(capsys):
     client = app.test_client()
     client.get("/__boom")
 
-    log_lines = [line for line in capsys.readouterr().out.strip().splitlines() if line]
-    records = [json.loads(line) for line in log_lines]
+    records = _structured_logs(capsys.readouterr().out)
     assert any(record["severity"] == "error" for record in records), (
         f"expected a structured error-severity log, got: {records}"
     )

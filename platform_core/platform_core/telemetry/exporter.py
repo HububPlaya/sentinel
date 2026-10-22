@@ -14,7 +14,15 @@ def build_span_processor(*, force_synchronous: bool = False):
         # for `out` is bound once at module-import time, not re-read per call,
         # so it would otherwise silently ignore any later stdout reassignment
         # (ours in production, or a test's capture fixture).
-        return SimpleSpanProcessor(ConsoleSpanExporter(out=sys.stdout))
+        #
+        # formatter: ReadableSpan.to_json() defaults to indent=4 (pretty,
+        # multi-line) -- interleaved with this codebase's own one-JSON-
+        # object-per-line structured logs, that corrupts line-based parsing
+        # of real stdout (CloudWatch, or any test reading captured output).
+        # Compact single-line JSON matches the existing log convention.
+        return SimpleSpanProcessor(
+            ConsoleSpanExporter(out=sys.stdout, formatter=lambda span: span.to_json(indent=None) + "\n")
+        )
 
     if exporter_kind == "otlp":
         from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
