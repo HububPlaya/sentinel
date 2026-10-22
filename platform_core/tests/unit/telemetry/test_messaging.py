@@ -23,3 +23,11 @@ def test_extracting_a_carrier_continues_the_same_trace():
         consumer_trace_id = format(consumer_span.get_span_context().trace_id, "032x")
 
     assert consumer_trace_id == producer_trace_id
+
+
+def test_empty_carrier_starts_an_independent_trace():
+    with extract_and_attach({}) as span:
+        trace_id = format(span.get_span_context().trace_id, "032x")
+
+    assert trace_id is not None
+    assert len(trace_id) == 32
