@@ -41,6 +41,12 @@ def current_origin() -> str:
     return _origin_var.get()
 
 
+def reference_id(trace_id: str) -> str:
+    """Short, deterministic, customer-facing derivation of a real trace_id -- safe to
+    put in an error response, unlike the full internal trace_id."""
+    return trace_id[:8]
+
+
 def reset() -> None:
     global _resource_attributes, _tracer
     _resource_attributes = {}
