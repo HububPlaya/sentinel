@@ -61,14 +61,9 @@ usually enough of the error message to know which of the two to pull.
 
 ## 3. Pull the real log — Windows Git Bash gotchas handled
 
-**Both** of these bit us repeatedly today. Always set both env vars on the same line as the `aws`
-call (exports don't persist across separate Bash tool invocations):
-
-- `MSYS_NO_PATHCONV=1` — without it, Git Bash mangles any `/`-leading argument (log group names,
-  `file://` URIs) into a bogus Windows path before `aws.exe` ever sees it.
-- `PYTHONIOENCODING=utf-8` (and `PYTHONUTF8=1`) — without it, a non-ASCII byte anywhere in the log
-  (always shows up eventually) crashes the AWS CLI's own output with a `charmap codec can't
-  encode` error, even when output is redirected to a file.
+See `.claude/rules/windows-dev-environment.md` for why `MSYS_NO_PATHCONV=1` and
+`PYTHONIOENCODING=utf-8`/`PYTHONUTF8=1` matter here. Set both on the same line as the `aws` call
+below — exports don't persist across separate Bash tool invocations.
 
 ### CodeBuild log (Build stage failed)
 
