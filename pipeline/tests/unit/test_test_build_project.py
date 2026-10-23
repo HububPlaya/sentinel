@@ -1,3 +1,4 @@
+
 import json
 
 import aws_cdk as core
@@ -56,6 +57,23 @@ def test_grants_codeartifact_read_and_publish_permissions():
             "Statement": assertions.Match.array_with([
                 assertions.Match.object_like({
                     "Action": assertions.Match.array_with(["codeartifact:PublishPackageVersion"]),
+                }),
+            ]),
+        }),
+    }))
+
+
+def test_grants_list_package_versions_for_the_idempotency_check():
+    # Missing in an earlier version of this construct: the publish step's "already published?"
+    # check calls ListPackageVersions, which silently failed (AccessDenied, exit 254) and was
+    # masked by its own `|| echo 0` fallback -- making every run think nothing was published yet
+    # and attempt a real re-upload, which then hit a real 409 Conflict once something actually was.
+    template, _ = _build_template()
+    template.has_resource_properties("AWS::IAM::Policy", assertions.Match.object_like({
+        "PolicyDocument": assertions.Match.object_like({
+            "Statement": assertions.Match.array_with([
+                assertions.Match.object_like({
+                    "Action": assertions.Match.array_with(["codeartifact:ListPackageVersions"]),
                 }),
             ]),
         }),
