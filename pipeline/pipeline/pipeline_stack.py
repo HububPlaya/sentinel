@@ -3,7 +3,7 @@ from aws_cdk import aws_codepipeline as codepipeline
 from aws_cdk import aws_codepipeline_actions as codepipeline_actions
 from constructs import Construct
 
-from .config import TargetRef
+from .config import CODEARTIFACT_DOMAIN, CODEARTIFACT_REPOSITORY, TargetRef
 from .constructs import ElasticBeanstalkDeployTarget, GitHubSourceAction, TestBuildProject
 
 
@@ -34,6 +34,10 @@ class PipelineStack(Stack):
             self, "Build",
             target=targets_by_env["dev"],
             input_artifact=self.source.output,
+            codeartifact_domain=CODEARTIFACT_DOMAIN,
+            codeartifact_repository=CODEARTIFACT_REPOSITORY,
+            account=self.account,
+            region=self.region,
         )
 
         self.pipeline = codepipeline.Pipeline(
