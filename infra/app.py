@@ -49,9 +49,6 @@ app_environment_variables = {
     "DB_NAME": database_stack.database.database_name,
     "DB_SECRET_ARN": database_stack.database.instance.secret.secret_arn,
     "DB_SECRET_REGION": env.region,
-    "CODEARTIFACT_DOMAIN": codeartifact_stack.domain_name,
-    "CODEARTIFACT_DOMAIN_OWNER": env.account,
-    "CODEARTIFACT_REPOSITORY": codeartifact_stack.repository_name,
 }
 if database_stack.read_replica:
     app_environment_variables["DB_READ_HOST"] = database_stack.read_replica.instance.db_instance_endpoint_address
