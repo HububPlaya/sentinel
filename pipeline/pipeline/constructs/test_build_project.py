@@ -115,7 +115,11 @@ class TestBuildProject(Construct):
         )
         self.project.add_to_role_policy(
             self._codeartifact_policy_statement(
-                actions=["codeartifact:PublishPackageVersion", "codeartifact:PutPackageMetadata"],
+                actions=[
+                    "codeartifact:PublishPackageVersion",
+                    "codeartifact:PutPackageMetadata",
+                    "codeartifact:ListPackageVersions",
+                ],
                 account=account, region=region,
                 resource_segment=f"package/{codeartifact_domain}/{codeartifact_repository}/*/*/*",
             )
